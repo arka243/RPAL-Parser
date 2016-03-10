@@ -28,7 +28,6 @@ Token* Lexer::lexer() {
 			tokenbuilder += ch;
 			ch = inputfilestream.get();
 		}
-		tokenbuilder += "\n";
 		last_scanned_char = ch;
 		if(std::find(RESERVED_LIST.begin(), RESERVED_LIST.end(), tokenbuilder) != RESERVED_LIST.end())
 			tok = new Token(tokenbuilder, "RESERVED");
@@ -43,7 +42,6 @@ Token* Lexer::lexer() {
                         tokenbuilder += ch;
                         ch = inputfilestream.get();
                 }
-                tokenbuilder += "\n";
                 last_scanned_char = ch;
 		tok = new Token(tokenbuilder, "INTEGER");
 		return tok;
@@ -99,6 +97,60 @@ Token* Lexer::lexer() {
                         return tok;
                 }
         }
-
-
+	else if(ch == '/') {
+		tokenbuilder += ch;
+		ch = inputfilestream.get();
+		if(ch == '/') {
+			while(ch != '\n') {
+				ch = inputfilestream.get();
+				if(ch == EOF) {
+					tok = new Token("", "ENDOFFILE");
+					return tok;
+				}
+			}
+			tok = new Token("", "ENDOFLINE");
+			return tok;
+		}
+		else {
+			last_scanned_char = ch;
+			tok = new Token(tokenbuilder, "OPERATOR");
+			return tok;
+		}
+	}
+	else if(ch == '(' || ch == ')' || ch == ';' || ch == ',') {
+		tokenbuilder += ch;
+		last_scanned_char = ' ';
+		tok = new Token(tokenbuilder, "PUNCTUATION");
+		return tok;
+	}
+	else if(ch == '\') {
+		ch = inputfilestream.get();
+		while(ch != '\'') {
+			if(ch == '\\') {
+				char prev = ch;
+				ch = inputfilestream.get();
+				if(ch != '\'')
+					tokenbuilder += prev;
+				else {
+					tokenbuilder += ch;
+					ch = inputfilestream.get();
+				}
+			}
+			else {
+				tokenbuilder += ch;
+				ch = inputfilestream.get();
+			}
+			if(c == EOF) {
+				cout << "\nError --- End Quotes not found!";
+				exit(0);
+			}
+		}
+		last_scanned_char = ' ';
+		tok = new Token(tokenbuilder, "STRING");
+		return tok;
+	}
+	else if(ch == EOF) {
+		tok = new Token("", "ENDOFFILE");
+		return tok;
+	}
 }
