@@ -12,6 +12,7 @@ class Parser {
 	Token token;
 	Lexer lexicon;
 	ifstream inputfilestream;
+	char last_scanned_char;
 
 	public:
 	
@@ -44,4 +45,13 @@ class Parser {
 	void Vb();
 	void Vl();
 
+};
+
+class Lexer {
+
+	public:
+
+	Lexer();
+
+	Token* lexer();
 };
