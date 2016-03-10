@@ -34,6 +34,71 @@ Token* Lexer::lexer() {
 			tok = new Token(tokenbuilder, "RESERVED");
 		else
 			tok = new Token(tokenbuilder, "IDENTIFIER");
+		return tok;
 	}
-	
+	else if(isdigit(ch)) {
+		tokenbuilder += ch;
+                ch = inputfilestream.get();
+                while(isdigit(ch)) {
+                        tokenbuilder += ch;
+                        ch = inputfilestream.get();
+                }
+                tokenbuilder += "\n";
+                last_scanned_char = ch;
+		tok = new Token(tokenbuilder, "INTEGER");
+		return tok;
+	}
+	else if(ch == '+' || ch == '.' || ch == '&' || ch == '@' || ch == "=" || ch == ':' || ch == '~' || ch == '|' || ch == '$' || ch == '!' || ch == '#' || ch == '%' || ch == '^' || ch == '_' || ch == '[' || ch == ']' || ch == '{' || ch == '}' || ch == '"' || ch == '?') {
+		last_scanned_char == ' ';
+		tokenbuilder += ch;
+		tok = new Token(tokenbuilder, "OPERATOR");
+		return tok;
+	}
+	else if(ch == '>' || ch == '<') {
+		tokenbuilder += ch;
+		ch = inputfilestream.get();
+		if(ch == '=') {
+			last_scanned_char = ' ';
+			tokenbuilder += ch;
+			tok = new Token(tokenbuilder, "OPERATOR");
+			return tok;
+		}
+		else {
+			last_scanned_char = ch;
+			tok = new Token(tokenbuilder, "OPERATOR");
+			return tok;
+		}
+	}
+	else if(ch == '*') {
+                tokenbuilder += ch;
+                ch = inputfilestream.get();
+                if(ch == '*') {
+                        last_scanned_char = ' ';
+                        tokenbuilder += ch;
+                        tok = new Token(tokenbuilder, "OPERATOR");
+                        return tok;
+                }
+                else {
+                        last_scanned_char = ch;
+                        tok = new Token(tokenbuilder, "OPERATOR");
+                        return tok;
+                }
+        }
+	else if(ch == '-') {
+                tokenbuilder += ch;
+                ch = inputfilestream.get();
+                if(ch == '>') {
+                        last_scanned_char = ' ';
+                        tokenbuilder += ch;
+                        tok = new Token(tokenbuilder, "OPERATOR");
+                        return tok;
+                }
+                else {
+                        last_scanned_char = ch;
+                        tok = new Token(tokenbuilder, "OPERATOR");
+                        return tok;
+                }
+        }
+
+
 }
