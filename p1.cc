@@ -13,8 +13,8 @@ int main(int argc, char *argv[]) {
 	}
 	else if(argc == 3) {
 		filepath = (string)argv[2];
-		if((string)argv[2].compare("-ast") == 0)
-			exec_mode = "ast"
+		if(((string)argv[2]).compare("-ast") == 0)
+			exec_mode = "ast";
 		else
 			cout << "\nError --- Execution mode not supported!";
 	}
@@ -24,6 +24,6 @@ int main(int argc, char *argv[]) {
 		exit(0);
 	}
 
-	Parser parser = new Parser(filepath);
-	parser.parse(exec_mode);
+	Parser *parser = new Parser(filepath);
+	parser->parse(exec_mode);
 }

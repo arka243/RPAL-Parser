@@ -1,5 +1,6 @@
 #include "token.h"
 
+
 Token::Token(string value, string type) {
 
 	token_value = value;
