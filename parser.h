@@ -6,6 +6,15 @@
 
 using namespace std;
 
+class Lexer {
+
+        public:
+
+        Lexer();
+
+        Token* lexer();
+};
+
 class Parser {
 
 	Token token;
@@ -18,7 +27,7 @@ class Parser {
 	
 	Parser(string filepath);
 	
-	parse(string exec_mode);
+	void parse(string exec_mode);
 
 	void tokenValueReader(string value);
 	void tokenTypeReader(string type);
@@ -47,13 +56,4 @@ class Parser {
 	void Vb();
 	void Vl();
 
-};
-
-class Lexer {
-
-	public:
-
-	Lexer();
-
-	Token* lexer();
 };

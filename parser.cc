@@ -3,7 +3,7 @@
 #include<algorithm>
 #include<vector>
 
-Parser:Parser(string filepath) {
+Parser::Parser(string filepath) {
 
 	isAST = false;
 	last_scanned_char = ' ';
@@ -17,7 +17,7 @@ Parser:Parser(string filepath) {
 	token = lexicon.lexer();
 }
 
-Parser:parse(string exec_mode) {
+void Parser:parse(string exec_mode) {
 
 	if(exec_mode.compare("ast") 
 		isAST = true;
