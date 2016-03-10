@@ -377,6 +377,7 @@ void Parser::tokenReader(string type) {
 
 void Parser::treeBuilder(string node_type, string node_value, int node_num) {
 
+	treeNode *node = new treeNode(node_type, node_value);
 	
 
 
