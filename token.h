@@ -9,10 +9,10 @@ class Token {
 
 	public:
 	
-	Token(value, type);
+	Token(string value, string type);
 
 	string getTokenValue();
-	void setTokenValue(value);
+	void setTokenValue(string value);
 	string getTokenType();
-	void setTokenType(type);
+	void setTokenType(string type);
 };
