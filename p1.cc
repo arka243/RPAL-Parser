@@ -5,16 +5,16 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 	
-	string filename, switch_case;
+	string filename, exec_mode;
 
 	if(argc == 2) {
 		filename = (string)argv[1];
-		switch_case = "off";
+		exec_mode = "none";
 	}
 	else if(argc == 3) {
 		filename = (string)argv[2];
 		if((string)argv[2].compare("-ast") == 0)
-			switch_case = "ast"
+			exec_mode = "ast"
 		else
 			cout << "\nError --- Execution mode not supported!";
 	}
@@ -25,5 +25,5 @@ int main(int argc, char *argv[]) {
 	}
 
 	Parser parser = new Parser(filename);
-	parser.parse(switch_case);
+	parser.parse(exec_mode);
 }
