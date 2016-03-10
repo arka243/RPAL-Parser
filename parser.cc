@@ -16,6 +16,19 @@ Parser:Parser(string filepath) {
 	token = lexicon.lexer();
 }
 
+Parser:parse(string exec_mode) {
+
+	bool isAST = false;
+	if(exec_mode.compare("ast") 
+		isAST = true;
+	E();
+	if(token.getTokenType().compare("ENDOFFILE") != 0)
+		cout << "\nError --- End of File expected after lexical analysis!";
+	if(isAST)
+		//generate_tree
+	cout << "\nAbstract Syntax Tree generated..!!";
+}
+
 /* Following grammar rules
 mentioned in rpal.grammar.pdf */
 
