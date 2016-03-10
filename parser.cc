@@ -365,7 +365,6 @@ void Parser::tokenReader(string value) {
 	token = lexicon.lexer();
 }
 
-
 void Parser::tokenReader(string type) {
 
 	if(token.getTokenType().compare(type) != 0) {
@@ -376,6 +375,12 @@ void Parser::tokenReader(string type) {
         token = lexicon.lexer();
 }
 
+void Parser::treeBuilder(string node_type, string node_value, int node_num) {
+
+	
+
+
+}
 
 /* Following the grammar rules 
 mentioned in lexer.pdf */
