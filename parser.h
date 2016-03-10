@@ -13,7 +13,8 @@ class Parser {
 	Lexer lexicon;
 	ifstream inputfilestream;
 	char last_scanned_char;
-
+	bool isAST;
+	
 	public:
 	
 	Parser(string filepath);

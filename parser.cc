@@ -5,6 +5,7 @@
 
 Parser:Parser(string filepath) {
 
+	isAST = false;
 	last_scanned_char = '';
 	lexicon = new Lexer();
 	inputfilestream.open(filepath.c_str(), ifstream::in);
@@ -18,7 +19,6 @@ Parser:Parser(string filepath) {
 
 Parser:parse(string exec_mode) {
 
-	bool isAST = false;
 	if(exec_mode.compare("ast") 
 		isAST = true;
 	E();
@@ -355,6 +355,28 @@ void Parser::Vl() {
                 treeBuilder("COMMA", ",", i);
 }
 
+void Parser::tokenReader(string value) {
+	
+	if(token.getTokenValue().compare(value) != 0) {
+		cout << "\nError --- Wrong Token Found!";
+		cout << "\nExiting ...";
+		exit(0);
+	}
+	token = lexicon.lexer();
+}
+
+
+void Parser::tokenReader(string type) {
+
+	if(token.getTokenType().compare(type) != 0) {
+		cout << "\nError --- Wrong Token Found!";
+                cout << "\nExiting ...";
+                exit(0);
+        }
+        token = lexicon.lexer();
+}
+
+
 /* Following the grammar rules 
 mentioned in lexer.pdf */
 
@@ -370,8 +392,14 @@ Token* Lexer::lexer() {
 		ch = last_scanned_char;
 	string tokenbuilder = "";
 	
-	while(ch == ' ' || ch == '\t' || ch == '\n')
+	while(ch == ' ' || ch == '\t' || ch == '\n') {
 		ch = inputfilestream.get();
+		if(ch == EOF) {
+			cout << "\nError --- Nothing to scan!";
+			cout << "\nExiting ..."
+			exit(0);
+		}
+	}
 
 	if(isalpha(ch)) {
 		tokenbuilder += ch;
