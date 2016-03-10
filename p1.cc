@@ -5,7 +5,7 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 	
-	string filename, exec_mode;
+	string filepath, exec_mode;
 
 	if(argc == 2) {
 		filename = (string)argv[1];
@@ -24,6 +24,6 @@ int main(int argc, char *argv[]) {
 		exit(0);
 	}
 
-	Parser parser = new Parser(filename);
+	Parser parser = new Parser(filepath);
 	parser.parse(exec_mode);
 }

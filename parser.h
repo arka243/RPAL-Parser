@@ -1,14 +1,21 @@
 #include "token.h"
+#include "lexer.h"
+#include<iostream>
+#include<cstdlib>
+#include<fstream>
+#include<cstdio>
 
 using namespace std;
 
 class Parser {
 
 	Token token;
+	Lexer lexicon;
+	ifstream inputfilestream;
 
 	public:
 	
-	Parser();
+	Parser(string filepath);
 
 	void readToken(string value);
 	void readToken(string type);

@@ -1,5 +1,17 @@
 #include "parser.h"
 
+Parser:Parser(string filepath) {
+
+	lexicon = new Lexer();
+	inputfilestream.open(filepath.c_str(), ifstream::in);
+	if(!inputfilestream) {
+		cout << "\nError...Could not open file!"
+		cout << "\nExiting ..."
+		exit(0);
+	}
+	token = lexicon.lexer();
+}
+
 void Parser:E() {
 
 	if(token.getTokenValue().compare("let") == 0 && token.getTokenType().compare("RESERVED") == 0) {
