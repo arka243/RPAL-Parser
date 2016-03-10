@@ -17,10 +17,10 @@ class Parser {
 	
 	Parser(string filepath);
 
-	void readToken(string value);
-	void readToken(string type);
+	void tokenReader(string value);
+	void tokenReader(string type);
 
-	void buildTree(string node_type, string node_value, int node_num)
+	void treeBuilder(string node_type, string node_value, int node_num)
 
 	void E();
 	void Ew();
