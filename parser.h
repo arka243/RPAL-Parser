@@ -17,6 +17,8 @@ class Parser {
 	public:
 	
 	Parser(string filepath);
+	
+	parse(string exec_mode);
 
 	void tokenValueReader(string value);
 	void tokenTypeReader(string type);

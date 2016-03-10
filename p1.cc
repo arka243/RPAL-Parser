@@ -8,11 +8,11 @@ int main(int argc, char *argv[]) {
 	string filepath, exec_mode;
 
 	if(argc == 2) {
-		filename = (string)argv[1];
+		filepath = (string)argv[1];
 		exec_mode = "none";
 	}
 	else if(argc == 3) {
-		filename = (string)argv[2];
+		filepath = (string)argv[2];
 		if((string)argv[2].compare("-ast") == 0)
 			exec_mode = "ast"
 		else
