@@ -460,7 +460,7 @@ Token* Lexer::lexer() {
 					return tok;
 				}
 			}
-			tok = new Token("", "ENDOFLINE");
+			tok = new Token("", "DELETE");
 			return tok;
 		}
 		else {
