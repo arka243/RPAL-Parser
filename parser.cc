@@ -6,7 +6,7 @@
 Parser:Parser(string filepath) {
 
 	isAST = false;
-	last_scanned_char = '';
+	last_scanned_char = ' ';
 	lexicon = new Lexer();
 	inputfilestream.open(filepath.c_str(), ifstream::in);
 	if(!inputfilestream) {
@@ -362,6 +362,7 @@ void Parser::tokenReader(string value) {
 		cout << "\nExiting ...";
 		exit(0);
 	}
+	cout << "\nToken Value: " << token.getTokenValue();
 	token = lexicon.lexer();
 }
 
@@ -372,6 +373,7 @@ void Parser::tokenReader(string type) {
                 cout << "\nExiting ...";
                 exit(0);
         }
+	cout << "\nToken Type: " << token.getTokenType();
         token = lexicon.lexer();
 }
 
@@ -392,7 +394,7 @@ Token* Lexer::lexer() {
 
 	char ch;
 	Token *tok;
-	if(last_scanned_char == '')
+	if(last_scanned_char == ' ')
 		ch = inputfilestream.get();
 	else
 		ch = last_scanned_char;
@@ -433,7 +435,7 @@ Token* Lexer::lexer() {
 		return tok;
 	}
 	else if(ch == '+' || ch == '.' || ch == '&' || ch == '@' || ch == "=" || ch == ':' || ch == '~' || ch == '|' || ch == '$' || ch == '!' || ch == '#' || ch == '%' || ch == '^' || ch == '_' || ch == '[' || ch == ']' || ch == '{' || ch == '}' || ch == '"' || ch == '?') {
-		last_scanned_char == '';
+		last_scanned_char == ' ';
 		tokenbuilder += ch;
 		tok = new Token(tokenbuilder, "OPERATOR");
 		return tok;
@@ -442,7 +444,7 @@ Token* Lexer::lexer() {
 		tokenbuilder += ch;
 		ch = inputfilestream.get();
 		if(ch == '=') {
-			last_scanned_char = '';
+			last_scanned_char = ' ';
 			tokenbuilder += ch;
 			tok = new Token(tokenbuilder, "OPERATOR");
 			return tok;
@@ -457,7 +459,7 @@ Token* Lexer::lexer() {
                 tokenbuilder += ch;
                 ch = inputfilestream.get();
                 if(ch == '*') {
-                        last_scanned_char = '';
+                        last_scanned_char = ' ';
                         tokenbuilder += ch;
                         tok = new Token(tokenbuilder, "OPERATOR");
                         return tok;
@@ -472,7 +474,7 @@ Token* Lexer::lexer() {
                 tokenbuilder += ch;
                 ch = inputfilestream.get();
                 if(ch == '>') {
-                        last_scanned_char = '';
+                        last_scanned_char = ' ';
                         tokenbuilder += ch;
                         tok = new Token(tokenbuilder, "OPERATOR");
                         return tok;
@@ -505,34 +507,8 @@ Token* Lexer::lexer() {
 	}
 	else if(ch == '(' || ch == ')' || ch == ';' || ch == ',') {
 		tokenbuilder += ch;
-		last_scanned_char = '';
+		last_scanned_char = ' ';
 		tok = new Token(tokenbuilder, "PUNCTUATION");
-		return tok;
-	}
-	else if(ch == '\') {
-		ch = inputfilestream.get();
-		while(ch != '\'') {
-			if(ch == '\\') {
-				char prev = ch;
-				ch = inputfilestream.get();
-				if(ch != '\'')
-					tokenbuilder += prev;
-				else {
-					tokenbuilder += ch;
-					ch = inputfilestream.get();
-				}
-			}
-			else {
-				tokenbuilder += ch;
-				ch = inputfilestream.get();
-			}
-			if(c == EOF) {
-				cout << "\nError --- End Quotes not found!";
-				exit(0);
-			}
-		}
-		last_scanned_char = '';
-		tok = new Token(tokenbuilder, "STRING");
 		return tok;
 	}
 	else if(ch == EOF) {

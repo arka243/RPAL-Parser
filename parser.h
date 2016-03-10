@@ -1,5 +1,4 @@
 #include "token.h"
-#include "lexer.h"
 #include<iostream>
 #include<cstdlib>
 #include<fstream>
