@@ -1,5 +1,8 @@
 #include "parser.h"
 
+/* Following grammar rules
+mentioned in rpal.grammar.pdf */
+
 Parser:Parser(string filepath) {
 
 	lexicon = new Lexer();
