@@ -666,7 +666,7 @@ Token* Parser::lexer() {
 				}
 			}
 			else {
-				tokebuilder += ch;
+				tokenbuilder += ch;
 				ch = inputfilestream.get();
 			}
 			if(ch == EOF) {
