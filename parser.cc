@@ -403,9 +403,6 @@ void Parser::tokenValueReader(string value) {
 		cout << "\nExiting ...";
 		exit(0);
 	}
-	cout << "\nToken Value: " << token->getTokenValue();
-	delete token;
-	token = NULL;
 	token = lexer();
 }
 
@@ -424,16 +421,11 @@ void Parser::tokenTypeReader(string type) {
 		else if(token->getTokenType().compare("STRING") == 0)
 			treeBuilder("STRING", token->getTokenValue(), 0);		
 	}
-	cout << "\nToken Type: " << token->getTokenType();
-	delete token;
-	token = NULL;
         token = lexer();
 }
 
 void Parser::treeBuilder(string node_type, string node_value, int node_num) {
 
-	cout << "\nCurrent node_num = " << node_num << endl;
-	cout << "\nCurrent stack size = " << nodeList.size() << endl;
 	treeNode *node = new treeNode(node_value, node_type);
 	while(!nodeList.empty()) {
 		treeNode *temp = nodeList.top();
@@ -449,14 +441,13 @@ void Parser::treeBuilder(string node_type, string node_value, int node_num) {
 		node->left = temp;
 	}
 	nodeList.push(node);
-	cout << "\nTree node <" << node_type << "," << node_value << "> created!" << endl;
 }
 
 void Parser::treeTraversal(treeNode *root) {
 
 	treeNode *temp = root;
 	if(root != NULL) {
-		cout << root->getNodeType() << " - " << root->getNodeValue() << endl; 
+		cout << root->getNodeType() << " : " << root->getNodeValue() << endl; 
 		if(temp->left != NULL)
 			treeTraversal(temp->left);
 		if(temp->right != NULL)
