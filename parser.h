@@ -8,7 +8,7 @@ using namespace std;
 
 class Parser {
 
-	Token token;
+	Token *token;
 	bool isAST;
 	ifstream inputfilestream;
         char last_scanned_char;
@@ -17,7 +17,7 @@ class Parser {
 	
 	Parser(string filepath);
 	
-	Token lexer();
+	Token* lexer();
 
 	void parse(string exec_mode);
 

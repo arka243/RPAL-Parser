@@ -9,7 +9,7 @@ Parser::Parser(string filepath) {
 	last_scanned_char = ' ';
 	inputfilestream.open(filepath.c_str(), ifstream::in);
 	if(!inputfilestream) {
-		cout << "\nError...Could not open file!"
+		cout << "\nError...Could not open file!";
 		cout << "\nExiting ...";
 		exit(0);
 	}
@@ -21,7 +21,7 @@ void Parser::parse(string exec_mode) {
 	if(exec_mode.compare("ast")) 
 		isAST = true;
 	E();
-	if(token.getTokenType().compare("ENDOFFILE") != 0)
+	if(token->getTokenType().compare("ENDOFFILE") != 0)
 		cout << "\nError --- End of File expected after lexical analysis!";
 	if(isAST)
 		//generate_tree
@@ -33,17 +33,17 @@ mentioned in rpal.grammar.pdf */
 
 void Parser::E() {
 
-	if(token.getTokenValue().compare("let") == 0 && token.getTokenType().compare("RESERVED") == 0) {
+	if(token->getTokenValue().compare("let") == 0 && token->getTokenType().compare("RESERVED") == 0) {
 		tokenValueReader("let");
 		D();
 		tokenValueReader("in");
 		E();
 		treeBuilder("LET", "let", 2);
 	}
-	else if(token.getTokenValue().compare("fn") == 0 && token.getTokenType().compare("RESERVED") == 0) {
+	else if(token->getTokenValue().compare("fn") == 0 && token->getTokenType().compare("RESERVED") == 0) {
 		tokenValueReader("fn");
 		int i = 0;
-		while((token.getTokenValue().compare("(") == 0 && token.getTokenType().compare("PUNCTUATION") == 0) || token.getTokenType().compare("IDENTIFIER") == 0) {
+		while((token->getTokenValue().compare("(") == 0 && token->getTokenType().compare("PUNCTUATION") == 0) || token->getTokenType().compare("IDENTIFIER") == 0) {
 			i++;
 			Vb();
 		}
@@ -58,7 +58,7 @@ void Parser::E() {
 void Parser::Ew() {
 
 	T();
-	if(token.getTokenValue().compare("where") == 0 && token.getTokenType().compare("RESERVED") == 0) {
+	if(token->getTokenValue().compare("where") == 0 && token->getTokenType().compare("RESERVED") == 0) {
 		tokenValueReader("where");
 		Dr();
 		treeBuilder("WHERE", "where", 2);
@@ -69,7 +69,7 @@ void Parser::T() {
 
         Ta();
         int i = 0;
-        while(token.getTokenValue().compare(",") == 0 && token.getTokenType().compare("PUNCTUATION") == 0) {
+        while(token->getTokenValue().compare(",") == 0 && token->getTokenType().compare("PUNCTUATION") == 0) {
                 i++; 
                 tokenValueReader(",");
                 Ta();
@@ -81,7 +81,7 @@ void Parser::T() {
 void Parser::Ta() {
 
         Tc();
-        while( (token.getTokenValue()).compare("aug") == 0 && token.getTokenType().compare("RESERVED") == 0) { 
+        while( (token->getTokenValue()).compare("aug") == 0 && token->getTokenType().compare("RESERVED") == 0) { 
                 tokenValueReader("aug");
                 Tc();
                 treeBuilder("AUG", "aug", 2);
@@ -91,7 +91,7 @@ void Parser::Ta() {
 void Parser::Tc() {
 
         B();
-        if(token.getTokenValue().compare("->") == 0 && token.getTokenType().compare("OPERATOR") == 0) { 
+        if(token->getTokenValue().compare("->") == 0 && token->getTokenType().compare("OPERATOR") == 0) { 
                 tokenValueReader("->");
                 Tc();
                 tokenValueReader("|");
@@ -103,7 +103,7 @@ void Parser::Tc() {
 void Parser::B() {
 
         Bt();
-        while(token.getTokenValue().compare("or") == 0 && token.getTokenType().compare("RESERVED") == 0) { 
+        while(token->getTokenValue().compare("or") == 0 && token->getTokenType().compare("RESERVED") == 0) { 
                 tokenValueReader("or");
                 Bt();
                 treeBuilder("OR", "or", 2);
@@ -113,7 +113,7 @@ void Parser::B() {
 void Parser::Bt() {
 
         Bs();
-        while(token.getTokenValue().compare("&") == 0 && token.getTokenType().compare("OPERATOR") == 0) { 
+        while(token->getTokenValue().compare("&") == 0 && token->getTokenType().compare("OPERATOR") == 0) { 
                 tokenValueReader("&");
                 Bs();
                 treeBuilder("AMPERSAND", "&", 2);
@@ -122,7 +122,7 @@ void Parser::Bt() {
 
 void Parser::Bs() {
 
-        if(token.getTokenValue().compare("not") == 0 && token.getTokenType().compare("RESERVED") == 0) {
+        if(token->getTokenValue().compare("not") == 0 && token->getTokenType().compare("RESERVED") == 0) {
                 tokenValueReader("not");
                 Bp();
                 treeBuilder("NOT", "not", 1);
@@ -134,32 +134,32 @@ void Parser::Bs() {
 void Parser::Bp() {
 
         A();
-        if((token.getTokenValue().compare("gr") == 0 && token.getTokenType().compare("RESERVED") == 0) || (token.getTokenValue().compare(">") == 0 && token.getTokenType().compare("OPERATOR") == 0)) {
-                tokenValueReader(token.getTokenValue());
+        if((token->getTokenValue().compare("gr") == 0 && token->getTokenType().compare("RESERVED") == 0) || (token->getTokenValue().compare(">") == 0 && token->getTokenType().compare("OPERATOR") == 0)) {
+                tokenValueReader(token->getTokenValue());
                 A();
                 treeBuilder("GREATER", "gr", 2);
         }
-        else if((token.getTokenValue().compare("ge") == 0 && token.getTokenType().compare("RESERVED") == 0) || (token.getTokenValue().compare(">=") == 0 && token.getTokenType().compare("OPERATOR") == 0)) {
-                tokenValueReader(token.getTokenValue());
+        else if((token->getTokenValue().compare("ge") == 0 && token->getTokenType().compare("RESERVED") == 0) || (token->getTokenValue().compare(">=") == 0 && token->getTokenType().compare("OPERATOR") == 0)) {
+                tokenValueReader(token->getTokenValue());
                 A();
                 treeBuilder("GREATEREQUAL", "ge", 2);
         }
-        else if((token.getTokenValue().compare("ls") == 0 && token.getTokenType().compare("RESERVED") == 0 ) || (token.getTokenValue().compare("<") == 0 && token.getTokenType().compare("OPERATOR") == 0)) {
-                tokenValueReader(token.getTokenValue());
+        else if((token->getTokenValue().compare("ls") == 0 && token->getTokenType().compare("RESERVED") == 0 ) || (token->getTokenValue().compare("<") == 0 && token->getTokenType().compare("OPERATOR") == 0)) {
+                tokenValueReader(token->getTokenValue());
                 A();
                 treeBuilder("LESS", "ls", 2);
         }
-        else if((token.getTokenValue().compare("le") == 0 && token.getTokenType().compare("RESERVED") == 0) || (token.getTokenValue().compare("<=") == 0 && token.getTokenType().compare("OPERATOR") == 0)) {
-                tokenValueReader(token.getTokenValue());
+        else if((token->getTokenValue().compare("le") == 0 && token->getTokenType().compare("RESERVED") == 0) || (token->getTokenValue().compare("<=") == 0 && token->getTokenType().compare("OPERATOR") == 0)) {
+                tokenValueReader(token->getTokenValue());
                 A();
                 treeBuilder("LESSEQUAL", "le", 2);
         }
-        else if(token.getTokenValue().compare("eq") == 0 && token.getTokenType().compare("RESERVED") == 0) {
+        else if(token->getTokenValue().compare("eq") == 0 && token->getTokenType().compare("RESERVED") == 0) {
                 tokenValueReader("eq");
                 A();
                 treeBuilder("EQUAL", "eq", 2);
         }
-        else if(token.getTokenValue().compare("ne") == 0 && token.getTokenType().compare("RESERVED") == 0) {
+        else if(token->getTokenValue().compare("ne") == 0 && token->getTokenType().compare("RESERVED") == 0) {
                 tokenValueReader("ne");
                 A();
                 treeBuilder("NOTEQUAL", "ne", 2);
@@ -168,44 +168,44 @@ void Parser::Bp() {
 
 void Parser::A() {
 
-        if(token.getTokenValue().compare("+") == 0 && token.getTokenType().compare("OPERATOR") == 0) { 
+        if(token->getTokenValue().compare("+") == 0 && token->getTokenType().compare("OPERATOR") == 0) { 
                 tokenValueReader("+");
                 At();
         }
-        else if(token.getTokenValue().compare("-") == 0 && token.getTokenType().compare("OPERATOR") == 0) { 
+        else if(token->getTokenValue().compare("-") == 0 && token->getTokenType().compare("OPERATOR") == 0) { 
                 tokenValueReader("-");
                 At();
                 treeBuilder("NEGATIVE", "neg", 1);
         }
         else 
                 At();
-        while((token.getTokenValue().compare("+") == 0 && token.getTokenType().compare("OPERATOR") == 0) || (token.getTokenValue().compare("-") == 0 && token.getTokenType().compare("OPERATOR") == 0)) {
-                tokenValueReader(token.getTokenValue());
+        while((token->getTokenValue().compare("+") == 0 && token->getTokenType().compare("OPERATOR") == 0) || (token->getTokenValue().compare("-") == 0 && token->getTokenType().compare("OPERATOR") == 0)) {
+                tokenValueReader(token->getTokenValue());
                 At();
-                if(token.getTokenValue().compare("+") == 0 )
-                        treeBuilder("ADDITION", token.getTokenValue(), 2);
+                if(token->getTokenValue().compare("+") == 0 )
+                        treeBuilder("ADDITION", token->getTokenValue(), 2);
                 else
-                        treeBuilder("SUBTRACTION", token.getTokenValue(), 2);
+                        treeBuilder("SUBTRACTION", token->getTokenValue(), 2);
         }
 }
 
 void Parser::At() {
 
         Af();
-        while((token.getTokenValue().compare("*") == 0 && token.getTokenType().compare("OPERATOR") == 0) || (token.getTokenValue().compare("/") == 0 && token.getTokenType().compare("OPERATOR") == 0)) {
-		tokenValueReader(token.getTokenValue());
+        while((token->getTokenValue().compare("*") == 0 && token->getTokenType().compare("OPERATOR") == 0) || (token->getTokenValue().compare("/") == 0 && token->getTokenType().compare("OPERATOR") == 0)) {
+		tokenValueReader(token->getTokenValue());
                 Af();
-                if(token.getTokenValue().compare("*") == 0)
-                	treeBuilder("MULTIPLICATION", token.getTokenValue(), 2);
+                if(token->getTokenValue().compare("*") == 0)
+                	treeBuilder("MULTIPLICATION", token->getTokenValue(), 2);
                 else
-                	treeBuilder("DIVISION", token.getTokenValue(), 2);
+                	treeBuilder("DIVISION", token->getTokenValue(), 2);
         }
 }
 
 void Parser::Af() {
 
         Ap();
-        if(token.getTokenValue().compare("**") == 0 && token.getTokenType().compare("OPERATOR") == 0)  {
+        if(token->getTokenValue().compare("**") == 0 && token->getTokenType().compare("OPERATOR") == 0)  {
                 tokenValueReader("**");
                 Af();
                 treeBuilder("EXPONENTIAL", "**", 2);
@@ -214,7 +214,7 @@ void Parser::Af() {
 
 void Parser::Ap() {
         R();
-        while(token.getTokenValue().compare("@") == 0 && token.getTokenType().compare("OPERATOR") == 0){
+        while(token->getTokenValue().compare("@") == 0 && token->getTokenType().compare("OPERATOR") == 0){
                 tokenValueReader("@");
                 tokenTypeReader("IDENTIFIER");
                 R();
@@ -224,7 +224,7 @@ void Parser::Ap() {
 
 void Parser::R() {
         Rn();
-        while((token.getTokenValue().compare("true") == 0 && token.getTokenType().compare("RESERVED") == 0) || (token.getTokenValue().compare("false") == 0 && token.getTokenType().compare("RESERVED") == 0) || (token.getTokenValue().compare("nil") == 0 && token.getTokenType().compare("RESERVED") == 0) || (token.getTokenValue().compare("(") == 0 && token.getTokenType().compare("PUNCTUATION") == 0) || (token.getTokenValue().compare("dummy") == 0 && (token.getTokenType().compare("RESERVED") == 0)) || (token.getTokenType().compare("IDENTIFIER") == 0) || (token.getTokenType().compare("STRING") == 0) || (token.getTokenType().compare("INTEGER") == 0)) {
+        while((token->getTokenValue().compare("true") == 0 && token->getTokenType().compare("RESERVED") == 0) || (token->getTokenValue().compare("false") == 0 && token->getTokenType().compare("RESERVED") == 0) || (token->getTokenValue().compare("nil") == 0 && token->getTokenType().compare("RESERVED") == 0) || (token->getTokenValue().compare("(") == 0 && token->getTokenType().compare("PUNCTUATION") == 0) || (token->getTokenValue().compare("dummy") == 0 && (token->getTokenType().compare("RESERVED") == 0)) || (token->getTokenType().compare("IDENTIFIER") == 0) || (token->getTokenType().compare("STRING") == 0) || (token->getTokenType().compare("INTEGER") == 0)) {
                 Rn();
                 treeBuilder("GAMMA", "gamma", 2);
         }
@@ -232,25 +232,25 @@ void Parser::R() {
 
 void Parser::Rn() {
 
-        if(token.getTokenType().compare("IDENTIFIER") == 0)
+        if(token->getTokenType().compare("IDENTIFIER") == 0)
                 tokenTypeReader("IDENTIFIER");
-        else if(token.getTokenType().compare("INTEGER") == 0)
+        else if(token->getTokenType().compare("INTEGER") == 0)
                 tokenTypeReader("INTEGER");
-        else if(token.getTokenType().compare("STRING") == 0)
+        else if(token->getTokenType().compare("STRING") == 0)
                 tokenTypeReader("STRING");
-        else if(token.getTokenValue().compare("true") == 0 && token.getTokenType().compare("RESERVED") == 0) {
+        else if(token->getTokenValue().compare("true") == 0 && token->getTokenType().compare("RESERVED") == 0) {
                 tokenValueReader("true");
                 treeBuilder("TRUE", "true", 0);
         }
-        else if(token.getTokenValue().compare("false") == 0 && token.getTokenType().compare("RESERVED")) {
+        else if(token->getTokenValue().compare("false") == 0 && token->getTokenType().compare("RESERVED")) {
                 tokenValueReader("false");
                 treeBuilder("FALSE", "false", 0);
         }
-        else if(token.getTokenValue().compare("nil") == 0 && token.getTokenType().compare("RESERVED") == 0) {
+        else if(token->getTokenValue().compare("nil") == 0 && token->getTokenType().compare("RESERVED") == 0) {
                 tokenValueReader("nil");
                 treeBuilder("NIL", "nil", 0);
         }
-        else if(token.getTokenValue().compare("(") == 0 && token.getTokenType().compare("PUNCTUATION") == 0) {
+        else if(token->getTokenValue().compare("(") == 0 && token->getTokenType().compare("PUNCTUATION") == 0) {
                 tokenValueReader("(");
                 E();
                 tokenValueReader(")");
@@ -264,7 +264,7 @@ void Parser::Rn() {
 void Parser::D() {
 
         Da();
-        if(token.getTokenValue().compare("within") == 0 && token.getTokenType().compare("RESERVED") == 0) {
+        if(token->getTokenValue().compare("within") == 0 && token->getTokenType().compare("RESERVED") == 0) {
                 tokenValueReader("within");
                 D();
                 treeBuilder("WITHIN", "within", 2);
@@ -275,7 +275,7 @@ void Parser::Da() {
 
         Dr();
         int i=0;
-        while(token.getTokenValue().compare("and") == 0 && token.getTokenType().compare("RESERVED") == 0) {
+        while(token->getTokenValue().compare("and") == 0 && token->getTokenType().compare("RESERVED") == 0) {
                 i++;
                 tokenValueReader("and");
                 Dr();
@@ -286,7 +286,7 @@ void Parser::Da() {
 
 void Parser::Dr() {
 
-        if(token.getTokenValue().compare("rec") == 0 && token.getTokenType().compare("RESERVED") == 0) {
+        if(token->getTokenValue().compare("rec") == 0 && token->getTokenType().compare("RESERVED") == 0) {
                 tokenValueReader("rec");
                 Db();
                 treeBuilder("REC", "rec", 1);
@@ -297,14 +297,14 @@ void Parser::Dr() {
 
 void Parser::Db() {
 
-        if(token.getTokenValue().compare("(") == 0 && token.getTokenType().compare("PUNCTUATION") == 0) { 
+        if(token->getTokenValue().compare("(") == 0 && token->getTokenType().compare("PUNCTUATION") == 0) { 
                 tokenValueReader("(");
                 D();
                 tokenValueReader(")");
         }
-        else if (token.getTokenType().compare("IDENTIFIER") == 0) { 
+        else if (token->getTokenType().compare("IDENTIFIER") == 0) { 
                 tokenTypeReader("IDENTIFIER"); 
-                if (token.getTokenValue().compare(",") == 0  && token.getTokenType().compare("PUNCTUATION") == 0 || (token.getTokenValue().compare("=") == 0 && token.getTokenType().compare("OPERATOR") == 0)) {
+                if (token->getTokenValue().compare(",") == 0  && token->getTokenType().compare("PUNCTUATION") == 0 || (token->getTokenValue().compare("=") == 0 && token->getTokenType().compare("OPERATOR") == 0)) {
                         Vl(); 
                         tokenValueReader("=");
                         E();
@@ -313,7 +313,7 @@ void Parser::Db() {
                 }
                 else {
                         int i = 0;
-                        while((token.getTokenValue().compare("(") == 0 && token.getTokenType().compare("PUNCTUATION") == 0) || token.getTokenType().compare("IDENTIFIER") == 0) {
+                        while((token->getTokenValue().compare("(") == 0 && token->getTokenType().compare("PUNCTUATION") == 0) || token->getTokenType().compare("IDENTIFIER") == 0) {
                                 i++;
                                 Vb();
                         }
@@ -325,12 +325,12 @@ void Parser::Db() {
 }
 
 void Parser::Vb() {
-       	if( token.getTokenType().compare("IDENTIFIER") == 0 ) { 
+       	if(token->getTokenType().compare("IDENTIFIER") == 0 ) { 
                 tokenTypeReader("IDENTIFIER");
         }
         else { 
                 tokenValueReader("(");
-                if(token.getTokenValue().compare(")") == 0 && token.getTokenType().compare("PUNCTUATION") == 0) {
+                if(token->getTokenValue().compare(")") == 0 && token->getTokenType().compare("PUNCTUATION") == 0) {
                         tokenValueReader("(");
                         treeBuilder("PARANTHESIS", "()", 2);
                 }
@@ -345,7 +345,7 @@ void Parser::Vb() {
 void Parser::Vl() {
 
 	int i = 1;
-        while(token.getTokenValue().compare(",") == 0 && token.getTokenType().compare("PUNCTUATION") == 0) { 
+        while(token->getTokenValue().compare(",") == 0 && token->getTokenType().compare("PUNCTUATION") == 0) { 
                 i++;
                 tokenValueReader(",");
                 tokenTypeReader("IDENTIFIER");
@@ -356,23 +356,23 @@ void Parser::Vl() {
 
 void Parser::tokenValueReader(string value) {
 	
-	if(token.getTokenValue().compare(value) != 0) {
+	if(token->getTokenValue().compare(value) != 0) {
 		cout << "\nError --- Wrong Token Found!";
 		cout << "\nExiting ...";
 		exit(0);
 	}
-	cout << "\nToken Value: " << token.getTokenValue();
+	cout << "\nToken Value: " << token->getTokenValue();
 	token = lexer();
 }
 
 void Parser::tokenTypeReader(string type) {
 
-	if(token.getTokenType().compare(type) != 0) {
+	if(token->getTokenType().compare(type) != 0) {
 		cout << "\nError --- Wrong Token Found!";
                 cout << "\nExiting ...";
                 exit(0);
         }
-	cout << "\nToken Type: " << token.getTokenType();
+	cout << "\nToken Type: " << token->getTokenType();
         token = lexer();
 }
 
