@@ -488,7 +488,6 @@ Token* Parser::lexer() {
 		}
 		last_scanned_char = ch;
 		if(std::find(RESERVED_LIST.begin(), RESERVED_LIST.end(), tokenbuilder) != RESERVED_LIST.end()) {
-			cout << "\nFound token in reserved list of words" << endl;
 			tok = new Token(tokenbuilder, "RESERVED");
 		}
 		else
