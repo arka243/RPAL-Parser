@@ -2,3 +2,4 @@ Existing Bugs:
 --------------
 1) The Vector<string> used for set of RESERVED WORDS does not work if the version of gcc/g++ is high enough. ---> Need to test this part on Storm/Thunder
 2) It is running fine for the two programs listed here (in directory programs/), but not yet sure if it will run fine for everything.
+3) Have not yet tested with difftest.pl
