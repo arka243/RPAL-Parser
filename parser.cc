@@ -32,7 +32,6 @@ Parser::Parser(string filepath) {
 
 	isAST = false;
 	last_scanned_char = ' ';
-	rootNode = NULL;
 	inputfilestream.open(filepath.c_str(), ifstream::in);
 	if(!inputfilestream) {
 		cout << "\nError...Could not open file!";
@@ -502,8 +501,7 @@ void Parser::treeBuilder(string node_type, string node_value, int node_num) {
 
 	treeNode *node = new treeNode(node_type, node_value);
 	while(!nodeList.empty()) {
-		treeNode *temp = NULL;
-		temp = nodeList.top();
+		treeNode *temp = nodeList.top();
 		nodeList.pop();
 		for(int i=0; i < node_num-1; i++) {
 			treeNode *topNode = nodeList.top();

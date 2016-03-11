@@ -31,7 +31,7 @@ class Parser {
 	bool isAST;
 	ifstream inputfilestream;
         char last_scanned_char;
-	stack<treeNode> nodeList;
+	stack<treeNode*> nodeList;
 	treeNode *rootNode;
 	
 	public:
