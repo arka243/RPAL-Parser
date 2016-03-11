@@ -49,9 +49,11 @@ void Parser::parse(string exec_mode) {
 	if(token->getTokenType().compare("ENDOFFILE") != 0)
 		cout << "\nError --- End of File expected after lexical analysis!";
 	rootNode = nodeList.top();
-	if(isAST)
-		//generate_tree
-	cout << "\nAbstract Syntax Tree generated..!!";
+	if(isAST) {
+		cout << "\nTree is getting generated..." << endl;	
+		treeTraversal(rootNode);
+		cout << "\nAbstract Syntax Tree generation completed..!!";
+	}
 }
 
 /* Following grammar rules
@@ -512,8 +514,19 @@ void Parser::treeBuilder(string node_type, string node_value, int node_num) {
 		node->left = temp;
 	}
 	nodeList.push(node);		
-	//cout << "\nBuilding Tree node for type: " << node_type << " and value: " << node_value;
 }
+
+void Parser::treeTraversal(treeNode *root) {
+
+	if(root != NULL) {
+		cout << root->getNodeValue() << "\t"; 
+		if(root->left != NULL)
+			treeTraversal(root->left);
+		if(root->right != NULL)
+			treeTraversal(root->right);
+	}
+}
+		
 
 /* Following the grammar rules 
 mentioned in lexer.pdf */
