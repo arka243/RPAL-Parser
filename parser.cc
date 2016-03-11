@@ -483,11 +483,6 @@ Token* Parser::lexer() {
 	
 	while(ch == ' ' || ch == '\t' || ch == '\n') {
 		ch = inputfilestream.get();
-		if(ch == EOF) {
-			cout << "\nError --- Nothing to scan!";
-			cout << "\nExiting ...";
-			exit(0);
-		}
 	}
 
 	if(isalpha(ch)) {
