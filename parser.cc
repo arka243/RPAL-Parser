@@ -7,7 +7,6 @@ Parser::Parser(string filepath) {
 
 	isAST = false;
 	last_scanned_char = ' ';
-	lexicon = new Lexer();
 	inputfilestream.open(filepath.c_str(), ifstream::in);
 	if(!inputfilestream) {
 		cout << "\nError...Could not open file!"
@@ -17,7 +16,7 @@ Parser::Parser(string filepath) {
 	token = lexer();
 }
 
-void Parser:parse(string exec_mode) {
+void Parser::parse(string exec_mode) {
 
 	if(exec_mode.compare("ast")) 
 		isAST = true;
