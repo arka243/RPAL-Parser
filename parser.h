@@ -17,7 +17,7 @@ class Parser {
 	
 	Parser(string filepath);
 	
-	Token* lexer();
+	Token lexer();
 
 	void parse(string exec_mode);
 

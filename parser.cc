@@ -10,7 +10,7 @@ Parser::Parser(string filepath) {
 	inputfilestream.open(filepath.c_str(), ifstream::in);
 	if(!inputfilestream) {
 		cout << "\nError...Could not open file!"
-		cout << "\nExiting ..."
+		cout << "\nExiting ...";
 		exit(0);
 	}
 	token = lexer();
