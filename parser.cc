@@ -45,13 +45,14 @@ void Parser::parse(string exec_mode) {
 	E();
 	if(token->getTokenType().compare("ENDOFFILE") != 0)
 		cout << "\nError --- End of File expected after lexical analysis!";
-	if(exec_mode.compare("ast") == 0) {
-		cout << "\nTree is getting generated..." << endl;	
-	//	treeTraversal(rootNode);
-		cout << "\nAbstract Syntax Tree generation completed..!!" << endl;
+	if(!nodeList.empty()) {
+		rootNode = nodeList.top();
+		if(exec_mode.compare("ast") == 0) {
+			cout << "\nTree is getting generated..." << endl;	
+			treeTraversal(rootNode);
+			cout << "\nAbstract Syntax Tree generation completed..!!" << endl;
+		}
 	}
-	else
-		cout << "Not AST, Tree will not be generated" << endl;
 }
 
 /* Following grammar rules
@@ -430,22 +431,24 @@ void Parser::tokenTypeReader(string type) {
 
 void Parser::treeBuilder(string node_type, string node_value, int node_num) {
 
-	cout << "\nTree node <" << node_type << "," << node_value << "> created!" << endl;
-	/*
+	cout << "\nCurrent node_num = " << node_num << endl;
+	cout << "\nCurrent stack size = " << nodeList.size() << endl;
 	treeNode *node = new treeNode(node_type, node_value);
 	while(!nodeList.empty()) {
 		treeNode *temp = nodeList.top();
 		nodeList.pop();
 		for(int i=0; i < node_num-1; i++) {
-			treeNode *topNode = nodeList.top();
-			nodeList.pop();
-			topNode->right = temp;
-			temp = topNode;
+			while(!nodeList.empty()) {
+				treeNode *topNode = nodeList.top();
+				nodeList.pop();
+				topNode->right = temp;
+				temp = topNode;
+			}
 		}
 		node->left = temp;
 	}
-	nodeList.push(node);		
-	*/
+	nodeList.push(node);
+	cout << "\nTree node <" << node_type << "," << node_value << "> created!" << endl;
 }
 
 void Parser::treeTraversal(treeNode *root) {
