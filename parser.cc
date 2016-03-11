@@ -518,12 +518,13 @@ void Parser::treeBuilder(string node_type, string node_value, int node_num) {
 
 void Parser::treeTraversal(treeNode *root) {
 
+	treeNode *temp = root;
 	if(root != NULL) {
-		cout << root->getNodeValue() << "\t"; 
-		if(root->left != NULL)
-			treeTraversal(root->left);
-		if(root->right != NULL)
-			treeTraversal(root->right);
+		cout << root->getNodeValue() << endl; 
+		if(temp->left != NULL)
+			treeTraversal(temp->left);
+		if(temp->right != NULL)
+			treeTraversal(temp->right);
 	}
 }
 		
@@ -555,8 +556,10 @@ Token* Parser::lexer() {
 			ch = inputfilestream.get();
 		}
 		last_scanned_char = ch;
-		if(std::find(RESERVED_LIST.begin(), RESERVED_LIST.end(), tokenbuilder) != RESERVED_LIST.end())
+		if(std::find(RESERVED_LIST.begin(), RESERVED_LIST.end(), tokenbuilder) != RESERVED_LIST.end()) {
+			cout << "\nFound token in reserved list of words" << endl;
 			tok = new Token(tokenbuilder, "RESERVED");
+		}
 		else
 			tok = new Token(tokenbuilder, "IDENTIFIER");
 		return tok;
@@ -647,6 +650,33 @@ Token* Parser::lexer() {
 		tokenbuilder += ch;
 		last_scanned_char = ' ';
 		tok = new Token(tokenbuilder, "PUNCTUATION");
+		return tok;
+	}
+	else if(ch == '\'') {
+		ch = inputfilestream.get();
+		while(ch != '\'') {
+			if(ch == '\\') {
+				char prev = ch;
+				ch = inputfilestream.get();
+				if(ch != '\'')
+					tokenbuilder += prev;
+				else {
+					tokenbuilder += ch;
+					ch = inputfilestream.get();
+				}
+			}
+			else {
+				tokebuilder += ch;
+				ch = inputfilestream.get();
+			}
+			if(ch == EOF) {
+				cout << "\nError Scanning Strings!";
+				cout << "\nExiting ..." << endl;
+				exit(0);
+			}
+		}
+		last_scanned_char = ' ';
+		tok = new Token(tokenbuilder, "STRING");
 		return tok;
 	}
 	else if(ch == EOF) {
