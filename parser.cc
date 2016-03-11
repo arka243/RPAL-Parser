@@ -444,6 +444,8 @@ void Parser::tokenValueReader(string value) {
 		exit(0);
 	}
 	cout << "\nToken Value: " << token->getTokenValue();
+	delete token;
+	token = NULL;
 	token = lexer();
 }
 
@@ -455,15 +457,27 @@ void Parser::tokenTypeReader(string type) {
                 exit(0);
         }
 	cout << "\nToken Type: " << token->getTokenType();
+	delete token;
+	token = NULL;
         token = lexer();
 }
 
 void Parser::treeBuilder(string node_type, string node_value, int node_num) {
 
-	//treeNode *node = new treeNode(node_type, node_value);
-	
-	cout << "\nBuilding Tree node for type: " << node_type << " and value: " << node_value;
-
+	treeNode *node = new treeNode(node_type, node_value);
+	while(!nodeList.empty()) {
+		treeNode *temp = nodeList.top();
+		nodeList.pop();
+		for(int i=0; i < node_num-1; i++) {
+			treeNode *topNode = nodeList.top();
+			nodeList.pop();
+			topNode->right = temp;
+			temp = topNode;
+		}
+		node->left = temp;
+	}
+	nodeList.push(node);		
+	//cout << "\nBuilding Tree node for type: " << node_type << " and value: " << node_value;
 }
 
 /* Following the grammar rules 
