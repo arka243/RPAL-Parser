@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 	}
 	else if(argc == 3) {
 		filepath = (string)argv[2];
-		if(((string)argv[1]).compare("-ast") == 0)
+		if(((string)argv[1]).compare("-ast") == 0) 
 			exec_mode = "ast";
 		else
 			cout << "\nError --- Execution mode " << ((string)argv[1]) << "not supported!";

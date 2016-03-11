@@ -28,7 +28,6 @@ class treeNode {
 class Parser {
 
 	Token *token;
-	bool isAST;
 	ifstream inputfilestream;
         char last_scanned_char;
 	stack<treeNode*> nodeList;
