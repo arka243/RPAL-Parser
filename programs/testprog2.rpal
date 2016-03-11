@@ -1,0 +1,3 @@
+let sum  n = n  eq 0 -> 0 |
+        n eq 1 -> 1 | (n * (n + 1) / 2) in 
+Print (sum (30), sum (0), sum(1), sum (4))
