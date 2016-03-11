@@ -14,7 +14,7 @@ Parser::Parser(string filepath) {
 		cout << "\nExiting ..."
 		exit(0);
 	}
-	token = lexicon.lexer();
+	token = lexer();
 }
 
 void Parser:parse(string exec_mode) {
@@ -363,7 +363,7 @@ void Parser::tokenValueReader(string value) {
 		exit(0);
 	}
 	cout << "\nToken Value: " << token.getTokenValue();
-	token = lexicon.lexer();
+	token = lexer();
 }
 
 void Parser::tokenTypeReader(string type) {
@@ -374,7 +374,7 @@ void Parser::tokenTypeReader(string type) {
                 exit(0);
         }
 	cout << "\nToken Type: " << token.getTokenType();
-        token = lexicon.lexer();
+        token = lexer();
 }
 
 void Parser::treeBuilder(string node_type, string node_value, int node_num) {
@@ -390,7 +390,7 @@ mentioned in lexer.pdf */
 
 std::vector<string> RESERVED_LIST = {"let", "in", "fn", "where", "aug", "or", "not", "gr", "ge", "ls", "le", "eq", "ne", "true", "false", "nil", "dummy", "within", "and", "rec"};
 
-Token* Lexer::lexer() {
+Token* Parser::lexer() {
 
 	char ch;
 	Token *tok;
@@ -404,7 +404,7 @@ Token* Lexer::lexer() {
 		ch = inputfilestream.get();
 		if(ch == EOF) {
 			cout << "\nError --- Nothing to scan!";
-			cout << "\nExiting ..."
+			cout << "\nExiting ...";
 			exit(0);
 		}
 	}
@@ -434,7 +434,7 @@ Token* Lexer::lexer() {
 		tok = new Token(tokenbuilder, "INTEGER");
 		return tok;
 	}
-	else if(ch == '+' || ch == '.' || ch == '&' || ch == '@' || ch == "=" || ch == ':' || ch == '~' || ch == '|' || ch == '$' || ch == '!' || ch == '#' || ch == '%' || ch == '^' || ch == '_' || ch == '[' || ch == ']' || ch == '{' || ch == '}' || ch == '"' || ch == '?') {
+	else if(ch == '+' || ch == '.' || ch == '&' || ch == '@' || ch == '=' || ch == ':' || ch == '~' || ch == '|' || ch == '$' || ch == '!' || ch == '#' || ch == '%' || ch == '^' || ch == '_' || ch == '[' || ch == ']' || ch == '{' || ch == '}' || ch == '"' || ch == '?') {
 		last_scanned_char == ' ';
 		tokenbuilder += ch;
 		tok = new Token(tokenbuilder, "OPERATOR");

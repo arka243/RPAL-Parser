@@ -6,27 +6,19 @@
 
 using namespace std;
 
-class Lexer {
-
-        public:
-
-        Lexer();
-
-        Token* lexer();
-};
-
 class Parser {
 
 	Token token;
-	Lexer lexicon;
-	ifstream inputfilestream;
-	char last_scanned_char;
 	bool isAST;
+	ifstream inputfilestream;
+        char last_scanned_char;
 	
 	public:
 	
 	Parser(string filepath);
 	
+	Token* lexer();
+
 	void parse(string exec_mode);
 
 	void tokenValueReader(string value);
