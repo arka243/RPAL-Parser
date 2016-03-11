@@ -386,7 +386,7 @@ void Parser::treeBuilder(string node_type, string node_value, int node_num) {
 /* Following the grammar rules 
 mentioned in lexer.pdf */
 
-std::vector<string> RESERVED_LIST = {"let", "in", "fn", "where", "aug", "or", "not", "gr", "ge", "ls", "le", "eq", "ne", "true", "false", "nil", "dummy", "within", "and", "rec"};
+std::vector<string> RESERVED_LIST = { "let", "in", "fn", "where", "aug", "or", "not", "gr", "ge", "ls", "le", "eq", "ne", "true", "false", "nil", "dummy", "within", "and", "rec" };
 
 Token* Parser::lexer() {
 
