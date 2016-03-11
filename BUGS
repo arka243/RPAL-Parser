@@ -1,0 +1,5 @@
+Existing Bugs:
+--------------
+1) Not being able to handle the lexer rules for STRING (it is still not included)
+2) The Vector<string> used for set of RESERVED WORDS does not work if the version of gcc/g++ is high enough. ---> Need to test this part on Storm/Thunder
+3) Program starts generating tokens but quits midway because of wrong token encounter.

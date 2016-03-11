@@ -2,10 +2,37 @@
 #include<algorithm>
 #include<vector>
 
+treeNode::treeNode(string value, string type) {
+
+	node_value = value;
+	node_type = type;
+}
+
+string treeNode::getNodeValue() {
+
+	return node_value;
+}
+
+void treeNode::setNodeValue(string value) {
+
+	node_value = value;
+}
+
+string treeNode::getNodeType() {
+
+	return node_type;
+}
+
+void treeNode::setNodeType(string type) {
+
+	node_type = type;
+}
+
 Parser::Parser(string filepath) {
 
 	isAST = false;
 	last_scanned_char = ' ';
+	rootNode = NULL;
 	inputfilestream.open(filepath.c_str(), ifstream::in);
 	if(!inputfilestream) {
 		cout << "\nError...Could not open file!";
@@ -22,6 +49,7 @@ void Parser::parse(string exec_mode) {
 	E();
 	if(token->getTokenType().compare("ENDOFFILE") != 0)
 		cout << "\nError --- End of File expected after lexical analysis!";
+	rootNode = nodeList.top();
 	if(isAST)
 		//generate_tree
 	cout << "\nAbstract Syntax Tree generated..!!";
@@ -456,6 +484,14 @@ void Parser::tokenTypeReader(string type) {
                 cout << "\nExiting ...";
                 exit(0);
         }
+	else {
+		if(token->getTokenType().compare("IDENTIFIER") == 0)
+			treeBuilder("IDENTIFIER", token->getTokenValue(), 0);
+		else if(token->getTokenType().compare("INTEGER") == 0)
+			treeBuilder("INTEGER", token->getTokenValue(), 0);
+		else if(token->getTokenType().compare("STRING") == 0)
+			treeBuilder("STRING", token->getTokenValue(), 0);		
+	}
 	cout << "\nToken Type: " << token->getTokenType();
 	delete token;
 	token = NULL;
@@ -466,7 +502,8 @@ void Parser::treeBuilder(string node_type, string node_value, int node_num) {
 
 	treeNode *node = new treeNode(node_type, node_value);
 	while(!nodeList.empty()) {
-		treeNode *temp = nodeList.top();
+		treeNode *temp = NULL;
+		temp = nodeList.top();
 		nodeList.pop();
 		for(int i=0; i < node_num-1; i++) {
 			treeNode *topNode = nodeList.top();

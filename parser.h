@@ -3,8 +3,27 @@
 #include<cstdlib>
 #include<fstream>
 #include<cstdio>
+#include<stack>
 
 using namespace std;
+
+class treeNode {
+
+	string node_value;
+	string node_type;
+
+	public:
+
+	treeNode *left;
+	treeNode *right;
+	
+	treeNode(string value, string type);
+
+	string getNodeValue();
+	void setNodeValue(string value);
+	string getNodeType();
+	void setNodeType(string type);
+};
 
 class Parser {
 
@@ -12,6 +31,8 @@ class Parser {
 	bool isAST;
 	ifstream inputfilestream;
         char last_scanned_char;
+	stack<treeNode> nodeList;
+	treeNode *rootNode;
 	
 	public:
 	
