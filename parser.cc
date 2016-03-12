@@ -357,7 +357,7 @@ void Parser::Db() {
                         }
                         tokenValueReader("=");
                         E();
-                        treeBuilder("FCN_FORM", "fcn_form", i+2);
+                        treeBuilder("FUNCTION_FORM", "function_form", i+2);
                 }
         }
 }
@@ -446,11 +446,11 @@ void Parser::treeTraversal(treeNode *root, int dots) {
 		for(int i=1; i<= dots; i++)
 			cout << ".";
 		if(root->getNodeType() == "STRING")
-			cout << "<STRING:'" << root->getNodeValue() << "'>" << endl;
+			cout << "<STR:'" << root->getNodeValue() << "'>" << endl;
 		else if(root->getNodeType() == "IDENTIFIER")
-                        cout << "<IDENTIFIER:" << root->getNodeValue() << ">" << endl;
+                        cout << "<ID:" << root->getNodeValue() << ">" << endl;
 		else if(root->getNodeType() == "INTEGER")
-                        cout << "<INTEGER:" << root->getNodeValue() << ">" << endl;
+                        cout << "<INT:" << root->getNodeValue() << ">" << endl;
 		else
 			cout << root->getNodeValue() << endl;
 		if(temp->left != NULL)
