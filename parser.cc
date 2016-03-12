@@ -48,10 +48,7 @@ void Parser::parse(string exec_mode) {
 	if(!nodeList.empty()) {
 		rootNode = nodeList.top();
 		if(exec_mode.compare("ast") == 0) {
-			cout << "\nTree is getting generated..." << endl;	
-			cout << "\n------------------------\n" << endl;
-			treeTraversal(rootNode);
-			cout << "\nAbstract Syntax Tree generation completed..!!" << endl;
+			treeTraversal(rootNode, 0);
 		}
 	}
 }
@@ -443,15 +440,24 @@ void Parser::treeBuilder(string node_type, string node_value, int node_num) {
 	nodeList.push(node);
 }
 
-void Parser::treeTraversal(treeNode *root) {
+void Parser::treeTraversal(treeNode *root, int dots) {
 
 	treeNode *temp = root;
 	if(root != NULL) {
-		cout << root->getNodeType() << " : " << root->getNodeValue() << endl; 
+		for(int i=1; i<= dots; i++)
+			cout << ".";
+		if(root->getNodeType() == "STRING")
+			cout << "<STRING:'" << root->getNodeValue() << "'>" << endl;
+		else if(root->getNodeType() == "IDENTIFIER")
+                        cout << "<IDENTIFIER:" << root->getNodeValue() << ">" << endl;
+		else if(root->getNodeType() == "INTEGER")
+                        cout << "<INTEGER:" << root->getNodeValue() << ">" << endl;
+		else
+			cout << root->getNodeValue() << endl;
 		if(temp->left != NULL)
-			treeTraversal(temp->left);
+			treeTraversal(temp->left, dots+1);
 		if(temp->right != NULL)
-			treeTraversal(temp->right);
+			treeTraversal(temp->right, dots);
 	}
 }
 		

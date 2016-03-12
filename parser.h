@@ -45,7 +45,7 @@ class Parser {
 	void tokenTypeReader(string type);
 
 	void treeBuilder(string node_type, string node_value, int node_num);
-	void treeTraversal(treeNode *root);	
+	void treeTraversal(treeNode *root, int dots);	
 
 	void E();
 	void Ew();
