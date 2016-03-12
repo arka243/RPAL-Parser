@@ -1,4 +1,4 @@
 Existing Bugs:
 --------------
 1) It is running fine for the two programs listed here (in directory programs/), but not yet sure if it will run fine for everything.
-2) Have not yet tested with difftest.pl
+2) Have not yet tested with difftest.pl so could not verify if the output matches exactly with the given RPAL parser

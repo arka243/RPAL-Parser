@@ -424,19 +424,18 @@ void Parser::tokenTypeReader(string type) {
 void Parser::treeBuilder(string node_type, string node_value, int node_num) {
 
 	treeNode *node = new treeNode(node_value, node_type);
-	while(!nodeList.empty()) {
-		treeNode *temp = nodeList.top();
+	treeNode *temp = NULL;
+	for(int i=0; i < node_num; i++) {
+		treeNode *topNode = nodeList.top();
 		nodeList.pop();
-		for(int i=0; i < node_num-1; i++) {
-			while(!nodeList.empty()) {
-				treeNode *topNode = nodeList.top();
-				nodeList.pop();
-				topNode->right = temp;
-				temp = topNode;
-			}
+		if(temp == NULL)
+			temp = topNode;
+		else {
+			topNode->right = temp;
+			temp = topNode;
 		}
-		node->left = temp;
 	}
+	node->left = temp;
 	nodeList.push(node);
 }
 
