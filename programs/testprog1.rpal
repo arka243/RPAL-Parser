@@ -1,5 +1,0 @@
-let f x v = x aug v 
-       and(        x, y = 1, 1 
-          ) 
-       in 
-           f nil (p (1,2))

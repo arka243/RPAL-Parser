@@ -1,4 +1,3 @@
-Existing Bugs:
---------------
-1) It is running fine for the two programs listed here (in directory programs/), but not yet sure if it will run fine for everything.
-2) Have not yet tested with difftest.pl so could not verify if the output matches exactly with the given RPAL parser
+1) Could not run with difftest.pl so couldn't check all the functions at a go.
+2) Manually ran against all the functions listed in tests folder, about half of them ran fine and produced exactly same output, and half of them didn't
+3) The ones that didn't run all ran into "Expected dummy but found <something>" error.
