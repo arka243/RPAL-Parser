@@ -273,7 +273,6 @@ void Parser::Rn() {
                 tokenTypeReader("INTEGER");
 	}
         else if(token->getTokenType().compare("STRING") == 0) {
-				cout << "\nRule: Rn -> <STRING>";
                 tokenTypeReader("STRING");
 	}
         else if(token->getTokenValue().compare("true") == 0 && token->getTokenType().compare("RESERVED") == 0) {
