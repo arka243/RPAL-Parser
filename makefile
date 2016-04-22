@@ -1,4 +1,4 @@
 all:
-	g++ -g -std=c++11 parser.cc parser.h token.cc token.h p1.cc -o p1
+	g++ -g -std=c++11 parser.cc parser.h token.cc token.h p2.cc -o p2
 clean:
-	rm -f *.o p1
+	rm -f *.o p2
