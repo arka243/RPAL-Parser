@@ -505,17 +505,19 @@ void Parser::treeStandardize(treeNode *treenode) {
 			treenode->setNodeValue("gamma");
 			treenode->setNodeType("GAMMA");
 			if(treenode->left != NULL) {
+				treeNode *temp1 = treenode->left; 
 				if((treenode->left)->right != NULL) {
 					if(((treenode->left)->right)->getNodeType().compare("EQUAL") == 0) {
-						((treenode->left)->right)->setNodeValue("lambda");
-						((treenode->left)->right)->setNodeType("LAMBDA");
+						(temp1->right)->setNodeValue("lambda");
+						(temp1->right)->setNodeType("LAMBDA");
 						if(((treenode->left)->right)->left != NULL) {
 							if((((treenode->left)->right)->left)->right != NULL) {
-								treeNode *temp = treenode->left;
-								treenode->left = temp->right;
-								temp->right = NULL;
-								(treenode->left)->right = (((treenode->left)->right)->left)->right;
-								(((treenode->left)->right)->left)->right = temp;
+								treeNode *temp2 = (temp1->right)->left; 
+								treeNode *temp3 = temp2->right; 
+								treenode->left = temp1->right;
+								temp1->right = NULL;
+								(treenode->left)->right = temp3;
+								temp2->right = temp1;
 							}
 							else {
 								cout << "Node cannot be null...exiting";
@@ -553,8 +555,8 @@ void Parser::treeStandardize(treeNode *treenode) {
 			treenode->setNodeType("EQUAL");
 			if(treenode->left != NULL) {
 				if((treenode->left)->right != NULL) {
-					treeNode *temp = treenode->left;
-					treeNode *nodeptr = temp->right;
+					treeNode *temp = treenode->left;	
+					treeNode *nodeptr = temp->right;	
 					while(nodeptr->right != NULL) {
 						treeNode *newnode = new treeNode("lambda","LAMBDA");
 						newnode->left = nodeptr;
@@ -586,16 +588,18 @@ void Parser::treeStandardize(treeNode *treenode) {
 			if(treenode->left != NULL) {
 				if((treenode->left)->left != NULL && (treenode->left)->right != NULL) {
 					if(((treenode->left)->right)->left != NULL) {
-						treeNode *temp1 = (treenode->left)->left;
-						treeNode *temp2 = ((treenode->left)->left)->right; 
-						treeNode *temp3 = (((treenode->left)->right)->left)->right; 
+						treeNode *temp1 = (treenode->left)->left;			
+						treeNode *temp2 = ((treenode->left)->right)->left;		
+						treeNode *temp3 = temp1->right; 		
+						treeNode *temp4 = temp2->right; 	
+						treenode->left = temp2;
 						treeNode *newnode1 = new treeNode("gamma", "GAMMA");
-						(((treenode->left)->right)->left)->right = newnode1;
+						temp2->right = newnode1;
 						treeNode *newnode2 = new treeNode("lambda","LAMBDA");
-						((((treenode->left)->right)->left)->right)->left = newnode2;
-						newnode2->right = temp2;
+						(temp2->right)->left = newnode2;
+						newnode2->right = temp3;
 						newnode2->left = temp1;
-						temp1->right = temp3;						
+						temp1->right = temp4;						
 					}
 					else {
 						cout << "\nNode cannot be null...exiting";
@@ -624,11 +628,15 @@ void Parser::treeStandardize(treeNode *treenode) {
 			if(treenode->left != NULL) {
 				if((treenode->left)->right != NULL) {
 					if(((treenode->left)->right)->right != NULL) {
+						treeNode *temp1 = treenode->left;
+						treeNode *temp2 = temp1->right;
+						treeNode *temp3 = temp2->right;
 						treeNode *newnode = new treeNode("gamma", "GAMMA");
-						newnode->left = treenode->left->right;
-						newnode->right = treenode->left->right->right;
-						treenode->left->right->right = treenode->left;
-						treenode->left->right = NULL;
+						treenode->left = newnode;
+						newnode->left = temp2;
+						newnode->right = temp3;
+						temp2->right = temp1;
+						temp1->right = NULL;
 					}
 					else {
 						cout << "\nNode cannot be null...exiting";
@@ -673,12 +681,12 @@ void Parser::treeStandardize(treeNode *treenode) {
                                                         	taunode->right = (commanode->right)->right;
 								commanode = commanode->right;
 								taunode = taunode->right;
-								temp = temp->right;
 							}
 							else {
-								cout << "\ncomma or tau node cannot be null";
-								exit(0);
-							}
+                                                                cout << "\ncomma or tau node cannot be null";
+                                                                exit(0);
+                                                        }
+							temp = temp->right;
 						}
 						commanode->right = NULL;
 					}
@@ -712,16 +720,17 @@ void Parser::treeStandardize(treeNode *treenode) {
 						treeNode *gammanode = new treeNode("gamma", "GAMMA");
 						treeNode *lambdanode = new treeNode("lambda", "LAMBDA");
 						treeNode *ystarnode = new treeNode("ystar", "YSTAR");
-						treeNode *temp1 = (treenode->left)->left;
-						treeNode *temp2 = ((treenode->left)->left)->right;
-						treenode->left = temp1;
-						((treenode->left)->left)->right = gammanode;
+						treenode *temp1 = treenode->left;
+						treeNode *temp2 = temp1->left;
+						treeNode *temp3 = temp2->right;
+						treenode->left = temp2;
+						temp2->right = gammanode;
 						gammanode->left = ystarnode;
 						ystarnode->right = lambdanode;
-						treeNode *newnode = new treeNode(temp1->getNodeValue(), temp1->getNodeType());
+						treeNode *newnode = new treeNode(temp2->getNodeValue(), temp2->getNodeType());
 						lambdanode->left = newnode;
-						newnode->left = temp1->left;
-						newnode->right = temp2;
+						newnode->left = temp2->left;
+						newnode->right = temp3;
 					}
 					else {
 						cout << "\nNode cannot be null...exiting";
