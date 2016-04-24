@@ -670,7 +670,7 @@ void Parser::treeStandardize(treeNode *treenode) {
 						while(temp != NULL) {
 							if(commanode != NULL && taunode != NULL) {
 								commanode->right = temp->left;
-                                                        	taunode->right = (commanode->right)->right
+                                                        	taunode->right = (commanode->right)->right;
 								commanode = commanode->right;
 								taunode = taunode->right;
 								temp = temp->right;
