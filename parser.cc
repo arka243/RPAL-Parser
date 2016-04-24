@@ -556,9 +556,9 @@ void Parser::treeStandardize(treeNode *treenode) {
 					treeNode *temp = treenode->left;
 					treeNode *nodeptr = temp->right;
 					while(nodeptr->right != NULL) {
-						treeNode newnode = treeNode("lambda","LAMBDA");
-						newnode.left = nodeptr;
-						temp->right = &newnode;
+						treeNode *newnode = new treeNode("lambda","LAMBDA");
+						newnode->left = nodeptr;
+						temp->right = newnode;
 						temp = nodeptr;
 						nodeptr = nodeptr->right;
 					}
@@ -580,10 +580,45 @@ void Parser::treeStandardize(treeNode *treenode) {
 		}
 	}
 	else if(nodeType.compare("TAU") == 0) {
-
+		
 	}
 	else if(nodeType.compare("WITHIN") == 0) {
-
+		if(treenode != NULL) {
+			treenode->setNodeValue("eq");
+			treenode->setNodeType("EQUAL");
+			if(treenode->left != NULL) {
+				if((treenode->left)->left != NULL && (treenode->left)->right != NULL) {
+					if(((treenode->left)->right)->left != NULL) {
+						treeNode *temp1 = (treenode->left)->left;
+						treeNode *temp2 = ((treenode->left)->left)->right; 
+						treeNode *temp3 = (((treenode->left)->right)->left)->right; 
+						treeNode *newnode1 = new treeNode("gamma", "GAMMA");
+						(((treenode->left)->right)->left)->right = newnode1;
+						treeNode *newnode2 = new treeNode("lambda","LAMBDA");
+						((((treenode->left)->right)->left)->right)->left = newnode2;
+						newnode2->right = temp2;
+						newnode2->left = temp1;
+						temp1->right = temp3;						
+					}
+					else {
+						cout << "\nNode cannot be null...exiting";
+						exit(0);
+					}
+				}
+				else {
+					cout << "\nNode left child's left child or right sibling is null...exiting";
+					exit(0);
+				}
+			}
+			else {
+				cout << "\nNode left child is null...exiting";
+				exit(0);
+			}
+		}
+		else {
+			cout << "\nNode is null...exiting";
+			exit(0);
+		}
 	}
 	else if(nodeType.compare("ATTHERATE") == 0) {
 
