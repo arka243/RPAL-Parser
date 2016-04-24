@@ -548,7 +548,35 @@ void Parser::treeStandardize(treeNode *treenode) {
 		} 	
 	}
 	else if(nodeType.compare("FUNCTION_FORM") == 0) {
-
+		if(treenode != NULL) {
+			treenode->setNodeValue("eq");
+			treenode->setNodeType("EQUAL");
+			if(treenode->left != NULL) {
+				if((treenode->left)->right != NULL) {
+					treeNode *temp = treenode->left;
+					treeNode *nodeptr = temp->right;
+					while(nodeptr->right != NULL) {
+						treeNode *newnode = treeNode("lambda","LAMBDA");
+						newnode->left = nodeptr;
+						temp->right = newnode;
+						temp = nodeptr;
+						nodeptr = nodeptr->right;
+					}
+					temp->right = nodeptr;
+				}
+				else {
+					cout << "\nNode left child's right sibling is null...exiting";
+					exit(0);
+			}
+			else {
+				cout << "\nNode left child is null...exiting";
+				exit(0);
+			}
+		}
+		else {
+			cout << "\nNode is null...exiting";
+			exit(0);
+		}
 	}
 	else if(nodeType.compare("TAU") == 0) {
 
