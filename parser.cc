@@ -621,7 +621,37 @@ void Parser::treeStandardize(treeNode *treenode) {
 		}
 	}
 	else if(nodeType.compare("ATTHERATE") == 0) {
-
+		if(treenode != NULL) {
+			treenode->setNodeValue("gamma");
+			treenode->setNodeType("GAMMA");
+			if(treenode->left != NULL) {
+				if((treenode->left)->right != NULL) {
+					if(((treenode->left)->right)->right != NULL) {
+						treeNode *newnode = new treeNode("gamma", "GAMMA");
+						newnode->left = treenode->left->right;
+						newnode->right = treenode->left->right->right;
+						treenode->left->right->right = treenode->left;
+						treenode->left->right = NULL;
+					}
+					else {
+						cout << "\nNode cannot be null...exiting";
+						exit(0);
+					}
+				}
+				else {
+					cout << "\nNode left child's right sibling is null...exiting";
+					exit(0);
+				}
+			}
+			else {
+				cout << "\nNode left child is null...exiting";
+				exit(0);
+			}
+		}
+		else {
+			cout << "\nNode is null...exiting";
+			exit(0);
+		}
 	}
 	else if(nodeType.compare("AND") == 0) {
 
