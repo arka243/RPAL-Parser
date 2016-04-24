@@ -481,7 +481,7 @@ void Parser::treeStandardize(treeNode *treenode) {
 			}
 			if((treenode->left)->right != NULL) {
 				if(((treenode->left)->left)->right != NULL) {
-					treeNode *temp = (treenode->eft)->right;
+					treeNode *temp = (treenode->left)->right;
 					(treenode->left)->right = ((treenode->left)->left)->right;
 					((treenode->left)->left)->right = temp;
 				}
@@ -506,7 +506,7 @@ void Parser::treeStandardize(treeNode *treenode) {
 			treenode->setNodeType("GAMMA");
 			if(treenode->left != NULL) {
 				if((treenode->left)->right != NULL) {
-					if(((treenode->left)->right)->getNodeType.compare("EQUAL") == 0) {
+					if(((treenode->left)->right)->getNodeType().compare("EQUAL") == 0) {
 						((treenode->left)->right)->setNodeValue("lambda");
 						((treenode->left)->right)->setNodeType("LAMBDA");
 						if(((treenode->left)->right)->left != NULL) {
@@ -545,7 +545,7 @@ void Parser::treeStandardize(treeNode *treenode) {
 		else {
 			cout << "\nNode is null...exiting";
 			exit(0);
-		}	
+		} 	
 	}
 	else if(nodeType.compare("FUNCTION_FORM") == 0) {
 
