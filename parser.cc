@@ -720,7 +720,7 @@ void Parser::treeStandardize(treeNode *treenode) {
 						treeNode *gammanode = new treeNode("gamma", "GAMMA");
 						treeNode *lambdanode = new treeNode("lambda", "LAMBDA");
 						treeNode *ystarnode = new treeNode("ystar", "YSTAR");
-						treenode *temp1 = treenode->left;
+						treeNode *temp1 = treenode->left;
 						treeNode *temp2 = temp1->left;
 						treeNode *temp3 = temp2->right;
 						treenode->left = temp2;
