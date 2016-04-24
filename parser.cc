@@ -708,16 +708,16 @@ void Parser::treeStandardize(treeNode *treenode) {
 			treenode->setNodeType("EQUAL");
 			if(treenode->left != NULL) {
 				if((treenode->left)->left != NULL) {
-					if(((treenode->left)->left)->right != NULL) {
+					if(((treenode->left)->left)->left != NULL && ((treenode->left)->left)->right != NULL) {
 						treeNode *gammanode = new treeNode("gamma", "GAMMA");
 						treeNode *lambdanode = new treeNode("lambda", "LAMBDA");
 						treeNode *ystarnode = new treeNode("ystar", "YSTAR");
 						treeNode *temp1 = (treenode->left)->left;
 						treeNode *temp2 = ((treenode->left)->left)->right;
-						treenode->left = (treenode->left)->left;
+						treenode->left = temp1;
 						((treenode->left)->left)->right = gammanode;
 						gammanode->left = ystarnode;
-						ystarnode->right=lambdanode;
+						ystarnode->right = lambdanode;
 						treeNode *newnode = new treeNode(temp1->getNodeValue(), temp1->getNodeType());
 						lambdanode->left = newnode;
 						newnode->left = temp1->left;
