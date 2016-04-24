@@ -579,9 +579,6 @@ void Parser::treeStandardize(treeNode *treenode) {
 			exit(0);
 		}
 	}
-	else if(nodeType.compare("TAU") == 0) {
-		
-	}
 	else if(nodeType.compare("WITHIN") == 0) {
 		if(treenode != NULL) {
 			treenode->setNodeValue("eq");
@@ -654,10 +651,97 @@ void Parser::treeStandardize(treeNode *treenode) {
 		}
 	}
 	else if(nodeType.compare("AND") == 0) {
-
+		if(treenode != NULL) {
+			treenode->setNodeValue("eq");
+			treenode->setNodeType("EQUAL");
+			if(treenode->left != NULL) {
+				if((treenode->left)->left != NULL) {
+					if(((treenode->left)->left)->right != NULL) {
+						treeNode *temp = treenode->left;
+						treeNode *commanode = new treeNode(",", "COMMA");
+						treeNode *taunode = new treeNode("tau", "TAU");
+						treenode->left = commanode;
+						commanode->left = treenode->left;
+						commanode->right = taunode;
+						taunode->left = (commanode->left)->right;
+						commanode = commanode->left;
+						taunode = taunode->left;
+						temp = temp->right;
+						while(temp != NULL) {
+							if(commanode != NULL && taunode != NULL) {
+								commanode->right = temp->left;
+                                                        	taunode->right = (commanode->right)->right
+								commanode = commanode->right;
+								taunode = taunode->right;
+								temp = temp->right;
+							}
+							else {
+								cout << "\ncomma or tau node cannot be null";
+								exit(0);
+							}
+						}
+						commanode->right = NULL;
+					}
+					else {
+						cout << "\nNode cannot be null...exiting";
+						exit(0);
+					}
+				}
+				else {
+					cout << "\nNode cannot be null...exiting";
+					exit(0);
+				}
+			}
+			else {
+				cout << "\nNode left child is null...exiting";
+				exit(0);
+			}
+		}
+		else {
+			cout << "\nNode is null...exiting";
+			exit(0);
+		}
 	}
 	else if(nodeType.compare("REC") == 0) {
-	
+		if(treenode != NULL) {
+			treenode->setNodeValue("eq");
+			treenode->setNodeType("EQUAL");
+			if(treenode->left != NULL) {
+				if((treenode->left)->left != NULL) {
+					if(((treenode->left)->left)->right != NULL) {
+						treeNode *gammanode = new treeNode("gamma", "GAMMA");
+						treeNode *lambdanode = new treeNode("lambda", "LAMBDA");
+						treeNode *ystarnode = new treeNode("ystar", "YSTAR");
+						treeNode *temp1 = (treenode->left)->left;
+						treeNode *temp2 = ((treenode->left)->left)->right;
+						treenode->left = (treenode->left)->left;
+						((treenode->left)->left)->right = gammanode;
+						gammanode->left = ystarnode;
+						ystarnode->right=lambdanode;
+						treeNode *newnode = new treeNode(temp1->getNodeValue(), temp1->getNodeType());
+						lambdanode->left = newnode;
+						newnode->left = temp1->left;
+						newnode->right = temp2;
+					}
+					else {
+						cout << "\nNode cannot be null...exiting";
+						exit(0);
+					}
+				}
+				else {
+					cout << "\nNode cannot be null...exiting";
+					exit(0);
+				}
+			}
+			else {
+				cout << "\nNode left child is null...exiting";
+				exit(0);
+			}
+		}
+		else {
+			cout << "\nNode is null...exiting";
+			exit(0);
+		}
 	}
 }
 
