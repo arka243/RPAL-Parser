@@ -556,9 +556,9 @@ void Parser::treeStandardize(treeNode *treenode) {
 					treeNode *temp = treenode->left;
 					treeNode *nodeptr = temp->right;
 					while(nodeptr->right != NULL) {
-						treeNode *newnode = treeNode("lambda","LAMBDA");
-						newnode->left = nodeptr;
-						temp->right = newnode;
+						treeNode newnode = treeNode("lambda","LAMBDA");
+						newnode.left = nodeptr;
+						temp->right = &newnode;
 						temp = nodeptr;
 						nodeptr = nodeptr->right;
 					}
@@ -567,6 +567,7 @@ void Parser::treeStandardize(treeNode *treenode) {
 				else {
 					cout << "\nNode left child's right sibling is null...exiting";
 					exit(0);
+				}
 			}
 			else {
 				cout << "\nNode left child is null...exiting";
