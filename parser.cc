@@ -47,6 +47,7 @@ void Parser::parse(string exec_mode) {
 		cout << "\nError --- End of File expected after lexical analysis!";
 	if(!nodeList.empty()) {
 		rootNode = nodeList.top();
+		treeStandardize(rootNode);
 		if(exec_mode.compare("ast") == 0) {
 			treeTraversal(rootNode, 0);
 		}
@@ -459,6 +460,113 @@ void Parser::treeTraversal(treeNode *root, int dots) {
 	}
 }
 		
+void Parser::treeStandardize(treeNode *treenode) {
+
+	if(treenode->left != NULL)
+		treeStandardize(treenode->left);
+	if(treenode->right != NULL)
+		treeStandardize(treenode->right);
+	string nodeType = treenode->getNodeType();
+	if(nodeType.compare("LET") == 0) {
+		if(treenode != NULL) {
+			treenode->setNodeValue("gamma");
+			treenode->setNodeType("GAMMA");
+			if(treenode->left != NULL) {
+				(treenode->left)->setNodeValue("lambda");
+				(treenode->left)->setNodeType("LAMBDA");
+			}
+			else {
+				cout << "\nNode left child is null...exiting";
+				exit(0);
+			}
+			if((treenode->left)->right != NULL) {
+				if(((treenode->left)->left)->right != NULL) {
+					treeNode *temp = (treenode->eft)->right;
+					(treenode->left)->right = ((treenode->left)->left)->right;
+					((treenode->left)->left)->right = temp;
+				}
+				else {
+					cout << "\nError in standardizing node LET...exiting";
+					exit(0);
+				}
+			}
+			else {
+				cout << "\nNode left child's right sibling is null...exiting";
+				exit(0);
+			}	
+		}
+		else {
+			cout << "\nNode is null...exiting";
+			exit(0);
+		}
+	}
+	else if(nodeType.compare("WHERE") == 0) {
+		if(treenode != NULL) {
+			treenode->setNodeValue("gamma");
+			treenode->setNodeType("GAMMA");
+			if(treenode->left != NULL) {
+				if((treenode->left)->right != NULL) {
+					if(((treenode->left)->right)->getNodeType.compare("EQUAL") == 0) {
+						((treenode->left)->right)->setNodeValue("lambda");
+						((treenode->left)->right)->setNodeType("LAMBDA");
+						if(((treenode->left)->right)->left != NULL) {
+							if((((treenode->left)->right)->left)->right != NULL) {
+								treeNode *temp = treenode->left;
+								treenode->left = temp->right;
+								temp->right = NULL;
+								(treenode->left)->right = (((treenode->left)->right)->left)->right;
+								(((treenode->left)->right)->left)->right = temp;
+							}
+							else {
+								cout << "Node cannot be null...exiting";
+                                                        	exit(0);
+							}
+						}
+						else {
+							cout << "Node cannot be null...exiting";
+							exit(0);
+						}	
+					}
+					else {
+						cout << "\nUnexpected node type encountered...exiting";
+						exit(0);
+					}
+				}
+				else {
+					cout << "\nNode left child's right sibling is null...exiting";
+					exit(0);
+				}
+			}
+			else {
+				cout << "\nNode left child is null...exiting";
+				exit(0);
+			}
+		}
+		else {
+			cout << "\nNode is null...exiting";
+			exit(0);
+		}	
+	}
+	else if(nodeType.compare("FUNCTION_FORM") == 0) {
+
+	}
+	else if(nodeType.compare("TAU") == 0) {
+
+	}
+	else if(nodeType.compare("WITHIN") == 0) {
+
+	}
+	else if(nodeType.compare("ATTHERATE") == 0) {
+
+	}
+	else if(nodeType.compare("AND") == 0) {
+
+	}
+	else if(nodeType.compare("REC") == 0) {
+	
+	}
+}
+
 
 /* Following the grammar rules 
 mentioned in lexer.pdf */
