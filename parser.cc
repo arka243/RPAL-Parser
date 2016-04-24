@@ -661,7 +661,7 @@ void Parser::treeStandardize(treeNode *treenode) {
 						treeNode *commanode = new treeNode(",", "COMMA");
 						treeNode *taunode = new treeNode("tau", "TAU");
 						treenode->left = commanode;
-						commanode->left = treenode->left;
+						commanode->left = temp->left;
 						commanode->right = taunode;
 						taunode->left = (commanode->left)->right;
 						commanode = commanode->left;
