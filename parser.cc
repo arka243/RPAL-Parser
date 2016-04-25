@@ -39,6 +39,7 @@ controlStructure::controlStructure() {
 Parser::Parser(string filepath) {
 
 	last_scanned_char = ' ';
+	controlstructure = new controlStructure();
 	inputfilestream.open(filepath.c_str(), ifstream::in);
 	if(!inputfilestream) {
 		cout << "\nError...Could not open file!";
