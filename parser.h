@@ -30,8 +30,10 @@ class controlStructure {
         public:
         treeNode *node;
         controlStructure *next;
+	controlStructure *deltaIndex; // for LAMBDA encounters
 
         controlStructure(treeNode *node);
+	controlStructure();
 };
 
 class Parser {

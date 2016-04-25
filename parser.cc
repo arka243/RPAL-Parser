@@ -32,6 +32,10 @@ controlStructure::controlStructure(treeNode *treenode) {
 	node = treenode;	
 }
 
+controlStructure::controlStructure() {
+
+}
+
 Parser::Parser(string filepath) {
 
 	last_scanned_char = ' ';
@@ -758,10 +762,24 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 	if(treenode != NULL) {
 		string nodeType = treenode->getNodeType();
 		if(nodeType.compare("LAMBDA") == 0) {
-
+			controlStructure *temp1 = new controlStructure(treenode);
+			cs->next = temp1;
+			cs = cs->next;
+			controlStructure *temp2 = new controlStructure();
+			treetoControlStructure((treenode->left)->right, temp2);
+			cs->deltaIndex = temp2->next;
+			if(treenode->right != NULL)
+				treetoControlStructure(treenode->right, cs);
 		}
 		else if(nodeType.compare("TAU") == 0) {
-		
+			controlStructure *temp = new controlStructure(treenode);
+			cs->next = temp;
+			cs = cs->next;
+			treetoControlStructure(treenode->left, cs);
+			while(cs->next != NULL)
+				cs = cs->next;
+			if(treenode->right != NULL)
+				treetoControlStructure(treenode->right, cs);
 		}
 		else if(nodeType.compare("CONDITION") == 0) {
 	
@@ -772,6 +790,8 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 			cs = cs->next;
 			if(treenode->left != NULL)
 				treetoControlStructure(treenode->left, cs);
+			while(cs->next != NULL)
+				cs = cs->next;
 			if(treenode->right != NULL)
 				treetoControlStructure(treenode->right, cs);
 		}
