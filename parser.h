@@ -44,6 +44,7 @@ class Parser {
 	stack<treeNode*> nodeList;
 	treeNode *rootNode;
 	controlStructure *controlstructure;	
+	stack<controlStructure*> controlStack;	
 
 	public:
 	
@@ -60,6 +61,7 @@ class Parser {
 	void treeTraversal(treeNode *root, int dots);
 	void treeStandardize(treeNode *root);
 	void treetoControlStructure(treeNode *root, controlStructure *cs);	
+	void generateControlStack(controlStructure *cs);
 
 	void E();
 	void Ew();

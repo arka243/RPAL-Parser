@@ -61,6 +61,7 @@ void Parser::parse(string exec_mode) {
 			treeTraversal(rootNode, 0);
 		}
 		treetoControlStructure(rootNode, controlstructure);
+		generateControlStack(controlstructure);
 	}
 }
 
@@ -846,6 +847,21 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 	}
 	else {
 		cout << "\nNode cannot be null! Exiting...";
+		exit(0);
+	}
+}
+
+void Parser::generateControlStack(controlStructure *cs) {
+
+	if(cs != NULL) {
+		controlStructure *temp = cs;
+		while(temp->next != NULL) {
+			controlStack.push(temp);
+			temp = temp->next;
+		}
+	}
+	else {
+		cout << "\nError...control structure not found! Exiting...";
 		exit(0);
 	}
 }
