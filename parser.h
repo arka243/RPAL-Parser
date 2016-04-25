@@ -32,6 +32,7 @@ class Parser {
         char last_scanned_char;
 	stack<treeNode*> nodeList;
 	treeNode *rootNode;
+	controlStructure *controlstructure;
 	
 	public:
 	
@@ -71,4 +72,13 @@ class Parser {
 	void Vb();
 	void Vl();
 
+};
+
+class controlStructure {
+
+	public:
+	treeNode *node;
+	controlStructure *next;
+
+	controlStructure(treeNode *node);
 };

@@ -28,6 +28,10 @@ void treeNode::setNodeType(string type) {
 	node_type = type;
 }
 
+controlStructure::controlStructure(treeNode *treenode) {
+	node = treenode;	
+}
+
 Parser::Parser(string filepath) {
 
 	last_scanned_char = ' ';
@@ -51,7 +55,7 @@ void Parser::parse(string exec_mode) {
 		if(exec_mode.compare("ast") == 0) {
 			treeTraversal(rootNode, 0);
 		}
-		treetoControlStructure(rootNode);
+		treetoControlStructure(rootNode, controlstructure);
 	}
 }
 
@@ -749,8 +753,33 @@ void Parser::treeStandardize(treeNode *treenode) {
 	}
 }
 
-void Parser::treetoControlStructure(treeNode *treenode) {
+void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 
+	if(treenode != NULL) {
+		string nodeType = treenode->getNodeType();
+		if(nodeType.compare("LAMBDA") == 0) {
+
+		}
+		else if(nodeType.compare("TAU") == 0) {
+		
+		}
+		else if(nodeType.compare("CONDITION") == 0) {
+	
+		}
+		else {
+			controlStructure *temp = new controlStructure(treenode);
+			cs->next = temp;
+			cs = cs->next;
+			if(treenode->left != NULL)
+				treetoControlStructure(treenode->left, cs);
+			if(treenode->right != NULL)
+				treetoControlStructure(treenode->right, cs);
+		}
+	}
+	else {
+		cout << "\nNode cannot be null! Exiting..."
+		exit(0);
+	}
 }
 
 /* Following the grammar rules 
