@@ -51,6 +51,7 @@ void Parser::parse(string exec_mode) {
 		if(exec_mode.compare("ast") == 0) {
 			treeTraversal(rootNode, 0);
 		}
+		treetoControlStructure(rootNode);
 	}
 }
 
@@ -748,6 +749,9 @@ void Parser::treeStandardize(treeNode *treenode) {
 	}
 }
 
+void Parser::treetoControlStructure(treeNode *treenode) {
+
+}
 
 /* Following the grammar rules 
 mentioned in lexer.pdf */
