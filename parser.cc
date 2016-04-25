@@ -716,7 +716,6 @@ void Parser::treeStandardize(treeNode *treenode) {
 			treenode->setNodeType("EQUAL");
 			if(treenode->left != NULL) {
 				if((treenode->left)->left != NULL) {
-					if(((treenode->left)->left)->left != NULL && ((treenode->left)->left)->right != NULL) {
 						treeNode *gammanode = new treeNode("gamma", "GAMMA");
 						treeNode *lambdanode = new treeNode("lambda", "LAMBDA");
 						treeNode *ystarnode = new treeNode("ystar", "YSTAR");
@@ -731,11 +730,6 @@ void Parser::treeStandardize(treeNode *treenode) {
 						lambdanode->left = newnode;
 						newnode->left = temp2->left;
 						newnode->right = temp3;
-					}
-					else {
-						cout << "\nNode cannot be null...exiting";
-						exit(0);
-					}
 				}
 				else {
 					cout << "\nNode cannot be null...exiting";
