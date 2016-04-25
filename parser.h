@@ -25,6 +25,15 @@ class treeNode {
 	void setNodeType(string type);
 };
 
+class controlStructure {
+
+        public:
+        treeNode *node;
+        controlStructure *next;
+
+        controlStructure(treeNode *node);
+};
+
 class Parser {
 
 	Token *token;
@@ -32,8 +41,8 @@ class Parser {
         char last_scanned_char;
 	stack<treeNode*> nodeList;
 	treeNode *rootNode;
-	controlStructure *controlstructure;
-	
+	controlStructure *controlstructure;	
+
 	public:
 	
 	Parser(string filepath);
@@ -48,7 +57,7 @@ class Parser {
 	void treeBuilder(string node_type, string node_value, int node_num);
 	void treeTraversal(treeNode *root, int dots);
 	void treeStandardize(treeNode *root);
-	void treetoControlStructure(treeNode *root);	
+	void treetoControlStructure(treeNode *root, controlStructure *cs);	
 
 	void E();
 	void Ew();
@@ -72,13 +81,4 @@ class Parser {
 	void Vb();
 	void Vl();
 
-};
-
-class controlStructure {
-
-	public:
-	treeNode *node;
-	controlStructure *next;
-
-	controlStructure(treeNode *node);
 };

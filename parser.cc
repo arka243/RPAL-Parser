@@ -777,7 +777,7 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 		}
 	}
 	else {
-		cout << "\nNode cannot be null! Exiting..."
+		cout << "\nNode cannot be null! Exiting...";
 		exit(0);
 	}
 }
