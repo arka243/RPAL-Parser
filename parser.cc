@@ -782,7 +782,54 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 				treetoControlStructure(treenode->right, cs);
 		}
 		else if(nodeType.compare("CONDITION") == 0) {
-	
+			if(treenode->left != NULL) {
+				if((treenode->left)->right != NULL) {
+					if(((treenode->left)->right)->right != NULL) {
+						treeNode *temp1 = treenode->left;
+						treeNode *temp2 = temp1->right;
+						treeNode *temp3 = temp2->right;
+						temp1->right = NULL;
+						temp2->right = NULL;
+						treeNode *deltathen = new treeNode("deltathen", "DELTATHEN");
+						controlStructure *csdeltathen = new controlStructure(deltathen);
+						cs->next = csdeltathen;
+						cs = cs->next;
+						controlStructure *ctrlstruct1 = new controlStructure();
+						treetoControlStructure(temp1, ctrlstruct1);
+						cs->deltaIndex = ctrlstruct1->next;
+						treeNode *deltaelse = new treeNode("deltaelse", "DELTAELSE");
+						controlStructure *csdeltaelse = new controlStructure(deltaelse);
+						cs->next = csdeltaelse;
+						cs = cs->next;
+						controlStructure *ctrlstruct2 = new controlStructure();
+						treetoControlStructure(temp2, ctrlstruct2);
+						cs->deltaIndex = ctrlstruct2->next;
+						treeNode *beta = new treeNode("beta", "BETA");
+						controlStructure *csbeta = new controlStructure(beta);
+						cs->next = csbeta;
+						cs = cs->next;
+						controlStructure *ctrlstruct3 = new controlStructure();
+						treetoControlStructure(temp3, ctrlstruct3);
+						cs->next = ctrlstruct3->next;
+						while(cs->next != NULL)
+							cs = cs->next;
+						if(treenode->right != NULL)
+							treetoControlStructure(treenode->right, cs);
+					}
+					else {
+						cout << "\nNode cannot be null...exiting";
+						exit(0);
+					}
+				}
+				else {
+					cout << "\nNode left child's right node is null...exiting";
+					exit(0);
+				}
+			}
+			else {
+				cout << "\nNode left child is null...exiting";
+				exit(0);
+			}
 		}
 		else {
 			controlStructure *temp = new controlStructure(treenode);
