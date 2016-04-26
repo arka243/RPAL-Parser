@@ -56,10 +56,10 @@ void Parser::parse(string exec_mode) {
 		cout << "\nError --- End of File expected after lexical analysis!";
 	if(!nodeList.empty()) {
 		rootNode = nodeList.top();
-		treeStandardize(rootNode);
 		if(exec_mode.compare("ast") == 0) {
 			treeTraversal(rootNode, 0);
 		}
+		treeStandardize(rootNode);
 		treetoControlStructure(rootNode, controlstructure);
 		generateControlStack(controlstructure);
 	}

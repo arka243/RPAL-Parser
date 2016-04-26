@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
 			cout << "\nError --- Execution mode " << ((string)argv[1]) << "not supported!";
 	}
 	else {
-		cout << "\nPlease follow the following format: ./p1 [-ast] FILENAME";
+		cout << "\nPlease follow the following format: ./p2 [-ast] FILENAME";
 		cout << "\nExiting ...";
 		exit(0);
 	}
