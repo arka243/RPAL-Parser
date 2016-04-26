@@ -773,16 +773,6 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 			if(treenode->right != NULL)
 				treetoControlStructure(treenode->right, cs);
 		}
-		else if(nodeType.compare("TAU") == 0) {
-			controlStructure *temp = new controlStructure(treenode);
-			cs->next = temp;
-			cs = cs->next;
-			treetoControlStructure(treenode->left, cs);
-			while(cs->next != NULL)
-				cs = cs->next;
-			if(treenode->right != NULL)
-				treetoControlStructure(treenode->right, cs);
-		}
 		else if(nodeType.compare("CONDITION") == 0) {
 			if(treenode->left != NULL) {
 				if((treenode->left)->right != NULL) {
@@ -833,6 +823,16 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 				exit(0);
 			}
 		}
+		else if(nodeType.compare("TAU") == 0) {
+                        controlStructure *temp = new controlStructure(treenode);
+                        cs->next = temp;
+                        cs = cs->next;
+                        treetoControlStructure(treenode->left, cs);
+                        while(cs->next != NULL)
+                                cs = cs->next;
+                        if(treenode->right != NULL)
+                                treetoControlStructure(treenode->right, cs);
+                }
 		else {
 			controlStructure *temp = new controlStructure(treenode);
 			cs->next = temp;
