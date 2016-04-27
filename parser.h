@@ -47,9 +47,14 @@ class controlStructure {
 class stackElement {
 
 	public:
+	int intValue;
+	string strValue;
 	environment *stackEnv;
+	string elementType;
 	
 	stackElement(environment *env);
+	stackElement(int value);
+	stackElement(string str);
 	stackElement();
 };
 

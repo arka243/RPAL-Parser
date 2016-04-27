@@ -38,7 +38,20 @@ controlStructure::controlStructure() {
 
 stackElement::stackElement(environment *e) {
 
+	elementType = "ENVIRONMENT";
 	stackEnv = e;
+}
+
+stackElement::stackElement(int value) {
+
+	elementType = "INTEGER";
+	intValue = value;
+}
+
+stackElement::stackElement(string str) {
+
+	elementType = "STRING";
+	strValue = str;
 }
 
 stackElement::stackElement() {
@@ -918,8 +931,41 @@ void Parser::runCSEMachine() {
 		controlStructure *currentctrlElement = controlStack.top();
 		controlStack.pop();
 		string currentelementType = (currentctrlElement->node)->getNodeType();
+		string currentelementValue = (currentctrlElement->node)->getNodeValue();
 		cout << currentelementType << endl;
-		
+		if(currentelementType.compare("INTEGER") == 0) {
+			int value = atoi(currentelementValue.c_str());
+			stackElement *new_se = new stackElement(value);
+			executionStack.push(new_se);			
+		}
+		if(currentelementType.compare("STRING") == 0) {
+			stackElement *new_se = new stackElement(currentelementValue);
+			executionStack.push(new_se);
+		}
+		if(currentelementType.compare("IDENTIFIER") == 0) {
+			stackElement *new_se = new stackElement();
+			
+		}
+		if(currentelementType.compare("TRUE") == 0) {
+			stackElement *new_se = new stackElement();
+			new_se->elementType = "TRUE";
+			executionStack.push(new_se);
+		}
+		if(currentelementType.compare("FALSE") == 0) {
+			stackElement *new_se = new stackElement();
+                        new_se->elementType = "FALSE";
+                        executionStack.push(new_se);
+		}
+		if(currentelementType.compare("NIL") == 0) {
+			stackElement *new_se = new stackElement();
+                        new_se->elementType = "NIL";
+                        executionStack.push(new_se);
+		}
+		if(currentelementType.compare("DUMMY") == 0) {
+			stackElement *new_se = new stackElement();
+                        new_se->elementType = "DUMMY";
+                        executionStack.push(new_se);
+		}
 	}
 }
 
