@@ -951,10 +951,10 @@ void Parser::runCSEMachine() {
 			executionStack.push(new_se);
 		}
 		else if(currentelementType.compare("IDENTIFIER") == 0) {
-			stackElement *new_se = new stackElement();
-			map<string, stackElement*>::iterator itr = declaration_table.find(currentelementValue);
-			if(itr != declaration_table.end())
-				executionStack.push(itr->second);
+			stackElement *temp_se = declaration_table[currentelementType];
+			if(temp_se != NULL) {
+				executionStack.push(temp_se);
+			}
 			else {
 				stackElement *new_se = new stackElement();
 				new_se->elementType = "PRIMITIVE_FUNCTION";
@@ -979,7 +979,7 @@ void Parser::runCSEMachine() {
 				else if(currentelementValue.compare("Conc") == 0)
                                         new_se->primfunc = "CONC";
 				else {
-					cout << "\nUndefined identifier...exiting";
+					cout << "\nUndefined identifier..." << currentelementValue << "exiting";
 					exit(0);
 				}
 				executionStack.push(new_se);

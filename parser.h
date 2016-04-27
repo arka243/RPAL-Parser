@@ -51,19 +51,19 @@ class controlStructure {
 
 class stackElement {
 
-	public:
-	int intValue;
-	string strValue;
-	string primfunc;
-	environment *stackEnv;
-	string elementType;
-	queue<stackElement *> tupleQueue;	// for TAU encounters
-	controlStructure *lambdaRef;	// for LAMBDA encounters
-	
-	stackElement(environment *env);
-	stackElement(int value);
-	stackElement(string str);
-	stackElement();
+        public:
+        int intValue;
+        string strValue;
+        string primfunc;
+        environment *stackEnv;
+        string elementType;
+        queue<stackElement *> tupleQueue;       // for TAU encounters
+        controlStructure *lambdaRef;    // for LAMBDA encounters
+
+        stackElement(environment *env);
+        stackElement(int value);
+        stackElement(string str);
+        stackElement();
 };
 
 class Parser {
