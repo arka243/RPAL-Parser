@@ -32,7 +32,25 @@ controlStructure::controlStructure(treeNode *treenode) {
 	node = treenode;	
 }
 
+controlStructure::controlStructure(environment *e) {
+
+	currentEnv = e;
+}
+
 controlStructure::controlStructure() {
+
+}
+
+stackElement::stackElement(environment *e) {
+
+	stackEnv = e;
+}
+
+stackElement::stackElement() {
+
+}
+
+environment::environment() {
 
 }
 
@@ -61,7 +79,9 @@ void Parser::parse(string exec_mode) {
 		}
 		treeStandardize(rootNode);
 		treetoControlStructure(rootNode, controlstructure);
-		generateControlStack(controlstructure);
+		env = new environment();
+		generateControlStack(env, controlstructure);
+		generateExecutionStack(env);
 	}
 }
 
@@ -871,8 +891,10 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 	}
 }
 
-void Parser::generateControlStack(controlStructure *cs) {
-
+void Parser::generateControlStack(environment *new_env, controlStructure *cs) {
+	
+	controlStructure *envctrl = new controlStructure(new_env);
+	controlStack.push(envctrl);
 	if(cs->next != NULL) {
 		controlStructure *temp = cs->next;
 		while(temp->next != NULL) {
@@ -887,6 +909,12 @@ void Parser::generateControlStack(controlStructure *cs) {
 		cout << "\nError...control structure not found! Exiting...";
 		exit(0);
 	}
+}
+
+void Parser::generateExecutionStack(environment *new_env) {
+
+	stackElement *se = new stackElement(new_env);
+	executionStack.push(se);
 }
 
 /* Following the grammar rules 

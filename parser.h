@@ -25,6 +25,12 @@ class treeNode {
 	void setNodeType(string type);
 };
 
+class environment {
+
+	public:
+	environment();
+};
+
 class controlStructure {
 
         public:
@@ -32,21 +38,20 @@ class controlStructure {
 	treeNode *leftchild;	// for LAMBDA encounters
         controlStructure *next;
 	controlStructure *deltaIndex; // for LAMBDA encounters
+	environment *currentEnv;
 
         controlStructure(treeNode *node);
+	controlStructure(environment *env);
 	controlStructure();
 };
 
 class stackElement {
 
 	public:
+	environment *stackEnv;
+	
+	stackElement(environment *env);
 	stackElement();
-};
-
-class environment {
-
-	public:
-	environment();
 };
 
 class Parser {
@@ -76,7 +81,8 @@ class Parser {
 	void treeTraversal(treeNode *root, int dots);
 	void treeStandardize(treeNode *root);
 	void treetoControlStructure(treeNode *root, controlStructure *cs);	
-	void generateControlStack(controlStructure *cs);
+	void generateControlStack(environment *env, controlStructure *cs);
+	void generateExecutionStack(environment *env);
 
 	void E();
 	void Ew();
