@@ -1173,6 +1173,42 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                 }
+		if(currentelementType.compare("NOT") == 0) {
+			stackElement *element = executionStack.top();
+                        if(element == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+			if(element->elementType.compare("TRUE") == 0 || element->elementType.compare("FALSE") == 0) {
+				stackElement *new_se = new stackElement();
+				if(element->elementType.compare("TRUE") == 0)
+					new_se->elementType = "FALSE";
+				else
+					new_se->elementType = "TRUE";
+				executionStack.push(new_se);
+			}
+			else {
+				cout << "\nError - element type mismatch";
+				exit(0);
+			}
+		}
+		if(currentelementType.compare("NEGATIVE") == 0) {
+                        stackElement *element = executionStack.top();
+                        if(element == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        if(element->elementType.compare("INTEGER") == 0) {
+                                stackElement *new_se = new stackElement(-(element->intValue));
+                                executionStack.push(new_se);
+                        }
+                        else {
+                                cout << "\nError - element type mismatch";
+                                exit(0);
+                        }
+                }
 	}
 }
 
