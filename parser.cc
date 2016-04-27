@@ -1609,7 +1609,7 @@ void Parser::runCSEMachine() {
 				}
 				executionStack.push(temp_se);
 				while(!backup.empty()) {
-					(current_se->tupleQueue).push(backup.top());
+					(current_se->tupleQueue).push(backup.front());
 					backup.pop();
 				}
                         }
@@ -1623,7 +1623,7 @@ void Parser::runCSEMachine() {
 					if(temp->elementType.compare("TUPLE") == 0) {
 						if(((current_se->lambdaRef)->leftchild)->right == NULL) {
 							string key = ((current_se->lambdaRef)->leftchild)->getNodeValue();
-							declaration_table.insert(key, temp);
+							declaration_table[key] = temp;
 						}
 						else {
 							queue<stackElement *> backup;
@@ -1634,7 +1634,7 @@ void Parser::runCSEMachine() {
 									(temp->tupleQueue).pop();
 									backup.push(queueelement);
 									string key = nodeptr->getNodeValue();
-									declaration_table.insert(key, queueelement);
+									declaration_table[key] = queueelement;
 									nodeptr = nodeptr->right;
 								}
 								else {
@@ -1650,10 +1650,10 @@ void Parser::runCSEMachine() {
 					}
 					else {
 						string key = ((current_se->lambdaRef)->leftchild)->getNodeValue();
-						declaration_table.insert(key, temp);
+						declaration_table[key] = temp;
 					}
 					env = newEnv;
-					stackElement new_se = new stackElement(newEnv);
+					stackElement *new_se = new stackElement(newEnv);
 					new_se->elementType = "ENVIRONMENT";
 					executionStack.push(new_se);
 					controlStructure *new_cs = new controlStructure(new treeNode("environment", "ENVIRONMENT"));
@@ -1673,7 +1673,7 @@ void Parser::runCSEMachine() {
 				}
 				else {
 					cout << "\nElement cannot be null!";
-					exti(0);
+					exit(0);
 				}
 			}
 			else if(current_se->elementType.compare("YSTAR") == 0) {
@@ -1719,7 +1719,7 @@ void Parser::runCSEMachine() {
 						cout << "\nError - mismatching element";
 						exit(0);
 					}
-					temp_cs = controlStack.top()
+					temp_cs = controlStack.top();
 					if(temp_cs != NULL && (temp_cs->node)->getNodeType().compare("DELTATHEN") == 0)
                                                 controlStack.pop();
                                         else {
@@ -1795,15 +1795,15 @@ void Parser::runCSEMachine() {
 
 void Parser::printelement(stackElement *se) {
 
-	if(new_se->elementType.compare("INTEGER") == 0)
-		cout << new_se->intValue;
-        else if(new_se->elementType.compare("STRING") == 0)
-        	cout << new_se->strValue;
-        else if(new_se->elementType.compare("TUPLE") == 0)
-                printtuple(new_se);
-        else if(new_se->elementType.compare("TRUE") == 0)
+	if(se->elementType.compare("INTEGER") == 0)
+		cout << se->intValue;
+        else if(se->elementType.compare("STRING") == 0)
+        	cout << se->strValue;
+        else if(se->elementType.compare("TUPLE") == 0)
+                printtuple(se);
+        else if(se->elementType.compare("TRUE") == 0)
                 cout << "true";
-        else if(new_se->elementType.compare("FALSE") == 0)
+        else if(se->elementType.compare("FALSE") == 0)
                 cout << "false";
         else
         	cout << "";
@@ -1827,7 +1827,7 @@ void Parser::printtuple(stackElement *se) {
                 	cout << ", ";
                 cout << ")";
                 while(!backup.empty()) {
-                	(se->tupleQueue).push(backup.top());
+                	(se->tupleQueue).push(backup.front());
                         backup.pop();
                 }
 	}
