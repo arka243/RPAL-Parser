@@ -917,6 +917,11 @@ void Parser::generateExecutionStack(environment *new_env) {
 	executionStack.push(se);
 }
 
+void runCSEMachine() {
+
+	
+}
+
 /* Following the grammar rules 
 mentioned in lexer.pdf */
 

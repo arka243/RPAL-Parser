@@ -83,6 +83,7 @@ class Parser {
 	void treetoControlStructure(treeNode *root, controlStructure *cs);	
 	void generateControlStack(environment *env, controlStructure *cs);
 	void generateExecutionStack(environment *env);
+	void runCSEMachine();
 
 	void E();
 	void Ew();
