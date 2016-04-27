@@ -889,7 +889,7 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 
 void Parser::generateControlStack(environment *new_env, controlStructure *cs) {
 	
-	controlStructure *envctrl = new treeNode("environment", "ENVIRONMENT");
+	controlStructure *envctrl = new controlStructure(new treeNode("environment", "ENVIRONMENT"));
 	envctrl->currentEnv = new_env;
 	controlStack.push(envctrl);
 	if(cs->next != NULL) {
