@@ -40,7 +40,7 @@ class controlStructure {
 	treeNode *leftchild;	// for LAMBDA encounters
         controlStructure *next;
 	controlStructure *deltaIndex; // for LAMBDA encounters
-	environment *currentEnv;
+	environment *currentEnv;	// for TAU encounters
 	int numofelements;
 
         controlStructure(treeNode *node);
@@ -55,7 +55,8 @@ class stackElement {
 	string primfunc;
 	environment *stackEnv;
 	string elementType;
-	queue<stackElement *> tupleQueue;
+	queue<stackElement *> tupleQueue;	// for TAU encounters
+	controlStructure *lambdaRef;	// for LAMBDA encounters
 	
 	stackElement(environment *env);
 	stackElement(int value);

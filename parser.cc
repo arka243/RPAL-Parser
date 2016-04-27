@@ -1468,6 +1468,13 @@ void Parser::runCSEMachine() {
 				exit(0);
 			}
 		}
+		else if(currentelementType.compare("LAMBDA") == 0) {
+			stackElement *new_se = new stackElement();
+			new_se->elementType = "LAMBDA";
+			currentctrlElement->currentEnv = env;
+			new_se->lambdaRef = currentctrlElement;
+			executionStack.push(new_se);
+		}
 	}
 }
 
