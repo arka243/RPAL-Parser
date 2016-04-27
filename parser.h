@@ -37,15 +37,29 @@ class controlStructure {
 	controlStructure();
 };
 
+class stackElement {
+
+	public:
+	stackElement();
+};
+
+class environment {
+
+	public:
+	environment();
+};
+
 class Parser {
 
 	Token *token;
 	ifstream inputfilestream;
         char last_scanned_char;
 	stack<treeNode*> nodeList;
+	environment *env;	
 	treeNode *rootNode;
 	controlStructure *controlstructure;	
-	stack<controlStructure*> controlStack;	
+	stack<controlStructure*> controlStack;
+	stack<stackElement*> executionStack;
 
 	public:
 	
