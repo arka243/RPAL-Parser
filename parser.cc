@@ -763,13 +763,33 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 
 	if(treenode != NULL) {
 		string nodeType = treenode->getNodeType();
-		if(nodeType.compare("LAMBDA") == 0) {
-			controlStructure *temp1 = new controlStructure(treenode);
-			cs->next = temp1;
+		if(nodeType.compare("GAMMA") == 0) {
+			controlStructure *temp = new controlStructure(treenode);
+                        cs->next = temp;
+                        cs = cs->next;
+                        if(treenode->left != NULL)
+                                treetoControlStructure(treenode->left, cs);
+                        while(cs->next != NULL)
+                                cs = cs->next;
+                        if(treenode->right != NULL)
+                                treetoControlStructure(treenode->right, cs);
+		}
+		else if(nodeType.compare("LAMBDA") == 0) {
+			treeNode *tempnode = (treenode->left)->right;
+			controlStructure *temp = new controlStructure(treenode);
+			if(treenode->left != NULL) {
+				temp->leftchild = treenode->left;
+				(temp->leftchild)->right = NULL;
+			}
+			else {
+				cout << "\nLeft child cannot be null...exiting";
+				exit(0);
+			}
+			cs->next = temp;
 			cs = cs->next;
-			controlStructure *temp2 = new controlStructure();
-			treetoControlStructure((treenode->left)->right, temp2);
-			cs->deltaIndex = temp2->next;
+			controlStructure *deltabranchoff = new controlStructure();
+			treetoControlStructure(tempnode, deltabranchoff);
+			cs->deltaIndex = deltabranchoff->next;
 			if(treenode->right != NULL)
 				treetoControlStructure(treenode->right, cs);
 		}
@@ -853,12 +873,15 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 
 void Parser::generateControlStack(controlStructure *cs) {
 
-	if(cs != NULL) {
-		controlStructure *temp = cs;
+	if(cs->next != NULL) {
+		controlStructure *temp = cs->next;
 		while(temp->next != NULL) {
 			controlStack.push(temp);
+			//cout << (temp->node)->getNodeType() << endl;
 			temp = temp->next;
 		}
+		controlStack.push(temp);
+		//cout << (temp->node)->getNodeType() << endl;
 	}
 	else {
 		cout << "\nError...control structure not found! Exiting...";

@@ -29,6 +29,7 @@ class controlStructure {
 
         public:
         treeNode *node;
+	treeNode *leftchild;	// for LAMBDA encounters
         controlStructure *next;
 	controlStructure *deltaIndex; // for LAMBDA encounters
 
