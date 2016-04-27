@@ -997,6 +997,113 @@ void Parser::runCSEMachine() {
                         new_se->elementType = "DUMMY";
                         executionStack.push(new_se);
 		}
+		if(currentelementType.compare("EQUAL") == 0) {
+			stackElement *firstElement = executionStack.top();
+			if(firstElement == NULL) {
+				cout << "\nElement cannot be null...exiting";
+				exit(0);
+			}
+			executionStack.pop();
+			stackElement *secondElement = executionStack.top();
+			if(secondElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+			executionStack.pop();
+			bool output;
+			if((firstElement->elementType.compare(secondElement->elementType) == 0) || (firstElement->elementType.compare("TRUE") == 0 && secondElement->elementType.compare("FALSE") == 0) || (firstElement->elementType.compare("FALSE") == 0 && secondElement->elementType.compare("TRUE") == 0)) {
+				if(firstElement->elementType.compare("STRING") == 0) {
+					if(firstElement->strValue.compare(secondElement->strValue) == 0)
+						output = true;
+					else
+						output = false;
+				}
+				else if(firstElement->elementType.compare("INTEGER") == 0) {
+					if(firstElement->intValue == secondElement->intValue)
+						output = true;
+					else
+						output = false;
+				}
+				else if(firstElement->elementType.compare("TRUE") == 0 || firstElement->elementType.compare("FALSE") == 0) {
+					if(firstElement->elementType.compare(secondElement->elementType) == 0)
+						output = true;
+					else
+						output = false;
+				}
+				else {
+					cout << "\nError - unidentified type of element...exiting";
+					exit(0);
+				}
+				if(output) {
+					stackElement *new_se = new stackElement();
+					new_se->elementType = "TRUE";
+					executionStack.push(new_se);
+				}
+				else {
+					stackElement *new_se = new stackElement();
+					new_se->elementType = "FALSE";
+					executionStack.push(new_se);
+				}
+			}
+			else {
+				cout << "\nElement type mismatch! Exiting";
+				exit(0);
+			}
+		}
+		if(currentelementType.compare("NOTEQUAL") == 0) {
+                        stackElement *firstElement = executionStack.top();
+                        if(firstElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *secondElement = executionStack.top();
+                        if(secondElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        bool output;
+                        if((firstElement->elementType.compare(secondElement->elementType) == 0) || (firstElement->elementType.compare("TRUE") == 0 && secondElement->elementType.compare("FALSE") == 0) || (firstElement->elementType.compare("FALSE") == 0 && secondElement->elementType.compare("TRUE") == 0)) {
+                                if(firstElement->elementType.compare("STRING") == 0) {
+                                        if(firstElement->strValue.compare(secondElement->strValue) == 1)
+                                                output = true;
+                                        else
+                                                output = false;
+                                }
+                                else if(firstElement->elementType.compare("INTEGER") == 0) {
+                                        if(firstElement->intValue != secondElement->intValue)
+                                                output = true;
+                                        else
+                                                output = false;
+                                }
+                                else if(firstElement->elementType.compare("TRUE") == 0 || firstElement->elementType.compare("FALSE") == 0) {
+                                        if(firstElement->elementType.compare(secondElement->elementType) == 1)
+                                                output = true;
+                                        else
+                                                output = false;
+                                }
+                                else {
+                                        cout << "\nError - unidentified type of element...exiting";
+                                        exit(0);
+                                }
+                                if(output) {
+                                        stackElement *new_se = new stackElement();
+                                        new_se->elementType = "TRUE";
+                                        executionStack.push(new_se);
+                                }
+                                else {
+                                        stackElement *new_se = new stackElement();
+                                        new_se->elementType = "FALSE";
+                                        executionStack.push(new_se);
+                                }
+                        }
+                        else {
+                                cout << "\nElement type mismatch! Exiting";
+                                exit(0);
+                        }
+                }
+		
 	}
 }
 
