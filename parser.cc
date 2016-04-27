@@ -1209,6 +1209,206 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                 }
+		if(currentelementType.compare("GREATER") == 0) {
+                        stackElement *firstElement = executionStack.top();
+                        if(firstElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *secondElement = executionStack.top();
+                        if(secondElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+			stackElement *new_se = new stackElement();
+			if(firstElement->elementType.compare("INTEGER") == 0 && secondElement->elementType.compare("INTEGER") == 0) {
+				if(firstElement->intValue > secondElement->intValue)
+					new_se->elementType = "TRUE";
+				else
+					new_se->elementType = "FALSE";
+				executionStack.push(new_se);
+			}
+			else {
+				cout << "\nError- element type mismatch";
+				exit(0);
+			}
+		}
+		if(currentelementType.compare("GREATEREQUAL") == 0) {
+                        stackElement *firstElement = executionStack.top();
+                        if(firstElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *secondElement = executionStack.top();
+                        if(secondElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *new_se = new stackElement();
+                        if(firstElement->elementType.compare("INTEGER") == 0 && secondElement->elementType.compare("INTEGER") == 0) {
+                                if(firstElement->intValue >= secondElement->intValue)
+                                        new_se->elementType = "TRUE";
+                                else
+                                        new_se->elementType = "FALSE";
+				executionStack.push(new_se);
+                        }
+                        else {
+                                cout << "\nError- element type mismatch";
+                                exit(0);
+                        }
+                }
+		if(currentelementType.compare("LESS") == 0) {
+                        stackElement *firstElement = executionStack.top();
+                        if(firstElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *secondElement = executionStack.top();
+                        if(secondElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *new_se = new stackElement();
+                        if(firstElement->elementType.compare("INTEGER") == 0 && secondElement->elementType.compare("INTEGER") == 0) {
+                                if(firstElement->intValue < secondElement->intValue)
+                                        new_se->elementType = "TRUE";
+                                else
+                                        new_se->elementType = "FALSE";
+				executionStack.push(new_se);
+                        }
+                        else {
+                                cout << "\nError- element type mismatch";
+                                exit(0);
+                        }
+                }
+		if(currentelementType.compare("LESSEQUAL") == 0) {
+                        stackElement *firstElement = executionStack.top();
+                        if(firstElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *secondElement = executionStack.top();
+                        if(secondElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *new_se = new stackElement();
+                        if(firstElement->elementType.compare("INTEGER") == 0 && secondElement->elementType.compare("INTEGER") == 0) {
+                                if(firstElement->intValue <= secondElement->intValue)
+                                        new_se->elementType = "TRUE";
+                                else
+                                        new_se->elementType = "FALSE";
+				executionStack.push(new_se);
+                        }
+                        else {
+                                cout << "\nError- element type mismatch";
+                                exit(0);
+                        }
+                }
+		if(currentelementType.compare("ADDITION") == 0) {
+                        stackElement *firstElement = executionStack.top();
+                        if(firstElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *secondElement = executionStack.top();
+                        if(secondElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *new_se = new stackElement();
+                        if(firstElement->elementType.compare("INTEGER") == 0 && secondElement->elementType.compare("INTEGER") == 0) {
+                        	new_se->elementType = "INTEGER";
+				new_se->intValue = firstElement->intValue + secondElement->intValue;
+				executionStack.push(new_se);
+                        }
+                        else {
+                                cout << "\nError- element type mismatch";
+                                exit(0);
+                        }
+                }
+		if(currentelementType.compare("SUBTRACTION") == 0) {
+                        stackElement *firstElement = executionStack.top();
+                        if(firstElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *secondElement = executionStack.top();
+                        if(secondElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *new_se = new stackElement();
+                        if(firstElement->elementType.compare("INTEGER") == 0 && secondElement->elementType.compare("INTEGER") == 0) {
+                                new_se->elementType = "INTEGER";
+                                new_se->intValue = firstElement->intValue - secondElement->intValue;
+                                executionStack.push(new_se);
+                        }
+                        else {
+                                cout << "\nError- element type mismatch";
+                                exit(0);
+                        }
+                }
+		if(currentelementType.compare("MULTIPLICATION") == 0) {
+                        stackElement *firstElement = executionStack.top();
+                        if(firstElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *secondElement = executionStack.top();
+                        if(secondElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *new_se = new stackElement();
+                        if(firstElement->elementType.compare("INTEGER") == 0 && secondElement->elementType.compare("INTEGER") == 0) {
+                                new_se->elementType = "INTEGER";
+                                new_se->intValue = firstElement->intValue * secondElement->intValue;
+                                executionStack.push(new_se);
+                        }
+                        else {
+                                cout << "\nError- element type mismatch";
+                                exit(0);
+                        }
+                }
+		if(currentelementType.compare("DIVISION") == 0) {
+                        stackElement *firstElement = executionStack.top();
+                        if(firstElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *secondElement = executionStack.top();
+                        if(secondElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *new_se = new stackElement();
+                        if(firstElement->elementType.compare("INTEGER") == 0 && secondElement->elementType.compare("INTEGER") == 0) {
+                                new_se->elementType = "INTEGER";
+                                new_se->intValue = firstElement->intValue / secondElement->intValue;
+                                executionStack.push(new_se);
+                        }
+                        else {
+                                cout << "\nError- element type mismatch";
+                                exit(0);
+                        }
+                }
 	}
 }
 
