@@ -41,7 +41,6 @@ class controlStructure {
 	environment *currentEnv;
 
         controlStructure(treeNode *node);
-	controlStructure(environment *env);
 	controlStructure();
 };
 
