@@ -8,10 +8,6 @@ treeNode::treeNode(string value, string type) {
 	node_type = type;
 }
 
-treeNode::treeNode() {
-
-}
-
 string treeNode::getNodeValue() {
 
 	return node_value;
@@ -899,8 +895,7 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 void Parser::generateControlStack(environment *new_env, controlStructure *cs) {
 	
 	controlStructure *envctrl = new controlStructure(new_env);
-	envctrl->node = new treeNode();
-	(envctrl->node)->setNodeType("ENVIRONMENT");
+	envctrl->node = new treeNode("environment", "ENVIRONMENT");
 	controlStack.push(envctrl);
 	if(cs->next != NULL) {
 		controlStructure *temp = cs->next;
@@ -929,6 +924,7 @@ void Parser::runCSEMachine() {
 		controlStack.pop();
 		string currentelementType = (currentctrlElement->node)->getNodeType();
 		cout << currentelementType << endl;
+		
 	}
 }
 

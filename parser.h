@@ -18,7 +18,6 @@ class treeNode {
 	treeNode *right;
 	
 	treeNode(string value, string type);
-	treeNode();
 
 	string getNodeValue();
 	void setNodeValue(string value);
