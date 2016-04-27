@@ -941,7 +941,6 @@ void Parser::runCSEMachine() {
 		controlStack.pop();
 		string currentelementType = (currentctrlElement->node)->getNodeType();
 		string currentelementValue = (currentctrlElement->node)->getNodeValue();
-		cout << currentelementType << endl;
 		if(currentelementType.compare("INTEGER") == 0) {
 			int value = atoi(currentelementValue.c_str());
 			stackElement *new_se = new stackElement(value);
