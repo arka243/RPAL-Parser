@@ -5,7 +5,7 @@ BUGS:
 3) The ones that didn't run ran into "Expected dummy but found <something>" error while producing AST. [Still cannot figure out what is going wrong!]
 4) Standardization of tree implemented -- working fine [use flag -std instead of -ast to check standardizing]
 5) Control Structure generation from Standardized tree implemented. No error encountered.
-4) Full CSE Machine implemented ---> [ERROR: BUT most of the programs are running into infinite loop or core-dumped! Need to debug further!]
+4) Full CSE Machine implemented ---> [ERROR: most of the programs are running into "Error - mismatching element" or core-dumped! Need to debug further!]
 
 ** UPDATE:
 ========= 

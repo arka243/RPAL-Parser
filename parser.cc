@@ -855,21 +855,21 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 						cs->next = csdeltathen;
 						cs = cs->next;
 						controlStructure *ctrlstruct1 = new controlStructure();
-						treetoControlStructure(temp1, ctrlstruct1);
+						treetoControlStructure(temp2, ctrlstruct1);
 						cs->deltaIndex = ctrlstruct1->next;
 						treeNode *deltaelse = new treeNode("deltaelse", "DELTAELSE");
 						controlStructure *csdeltaelse = new controlStructure(deltaelse);
 						cs->next = csdeltaelse;
 						cs = cs->next;
 						controlStructure *ctrlstruct2 = new controlStructure();
-						treetoControlStructure(temp2, ctrlstruct2);
+						treetoControlStructure(temp3, ctrlstruct2);
 						cs->deltaIndex = ctrlstruct2->next;
 						treeNode *beta = new treeNode("beta", "BETA");
 						controlStructure *csbeta = new controlStructure(beta);
 						cs->next = csbeta;
 						cs = cs->next;
 						controlStructure *ctrlstruct3 = new controlStructure();
-						treetoControlStructure(temp3, ctrlstruct3);
+						treetoControlStructure(temp1, ctrlstruct3);
 						cs->next = ctrlstruct3->next;
 						while(cs->next != NULL)
 							cs = cs->next;
