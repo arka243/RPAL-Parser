@@ -4,6 +4,7 @@
 #include<fstream>
 #include<cstdio>
 #include<stack>
+#include<queue>
 #include<map>
 
 using namespace std;
@@ -40,6 +41,7 @@ class controlStructure {
         controlStructure *next;
 	controlStructure *deltaIndex; // for LAMBDA encounters
 	environment *currentEnv;
+	int numofelements;
 
         controlStructure(treeNode *node);
 	controlStructure();
@@ -53,6 +55,7 @@ class stackElement {
 	string primfunc;
 	environment *stackEnv;
 	string elementType;
+	queue<stackElement *> tupleQueue;
 	
 	stackElement(environment *env);
 	stackElement(int value);

@@ -877,7 +877,14 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
                         cs->next = temp;
                         cs = cs->next;
                         treetoControlStructure(treenode->left, cs);
-                        while(cs->next != NULL)
+                        treeNode *nodeptr = treenode;
+			int tuple_elements = 0;
+			while(nodeptr != NULL) {
+				nodeptr = nodeptr->right;
+				tuple_elements++;
+			}
+			cs->numofelements = tuple_elements;
+			while(cs->next != NULL)
                                 cs = cs->next;
                         if(treenode->right != NULL)
                                 treetoControlStructure(treenode->right, cs);
@@ -938,11 +945,11 @@ void Parser::runCSEMachine() {
 			stackElement *new_se = new stackElement(value);
 			executionStack.push(new_se);			
 		}
-		if(currentelementType.compare("STRING") == 0) {
+		else if(currentelementType.compare("STRING") == 0) {
 			stackElement *new_se = new stackElement(currentelementValue);
 			executionStack.push(new_se);
 		}
-		if(currentelementType.compare("IDENTIFIER") == 0) {
+		else if(currentelementType.compare("IDENTIFIER") == 0) {
 			stackElement *new_se = new stackElement();
 			map<string, stackElement*>::iterator itr = declaration_table.find(currentelementValue);
 			if(itr != declaration_table.end())
@@ -977,27 +984,27 @@ void Parser::runCSEMachine() {
 				executionStack.push(new_se);
 			}				
 		}
-		if(currentelementType.compare("TRUE") == 0) {
+		else if(currentelementType.compare("TRUE") == 0) {
 			stackElement *new_se = new stackElement();
 			new_se->elementType = "TRUE";
 			executionStack.push(new_se);
 		}
-		if(currentelementType.compare("FALSE") == 0) {
+		else if(currentelementType.compare("FALSE") == 0) {
 			stackElement *new_se = new stackElement();
                         new_se->elementType = "FALSE";
                         executionStack.push(new_se);
 		}
-		if(currentelementType.compare("NIL") == 0) {
+		else if(currentelementType.compare("NIL") == 0) {
 			stackElement *new_se = new stackElement();
                         new_se->elementType = "NIL";
                         executionStack.push(new_se);
 		}
-		if(currentelementType.compare("DUMMY") == 0) {
+		else if(currentelementType.compare("DUMMY") == 0) {
 			stackElement *new_se = new stackElement();
                         new_se->elementType = "DUMMY";
                         executionStack.push(new_se);
 		}
-		if(currentelementType.compare("EQUAL") == 0) {
+		else if(currentelementType.compare("EQUAL") == 0) {
 			stackElement *firstElement = executionStack.top();
 			if(firstElement == NULL) {
 				cout << "\nElement cannot be null...exiting";
@@ -1050,7 +1057,7 @@ void Parser::runCSEMachine() {
 				exit(0);
 			}
 		}
-		if(currentelementType.compare("NOTEQUAL") == 0) {
+		else if(currentelementType.compare("NOTEQUAL") == 0) {
                         stackElement *firstElement = executionStack.top();
                         if(firstElement == NULL) {
                                 cout << "\nElement cannot be null...exiting";
@@ -1103,7 +1110,7 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                 }
-		if(currentelementType.compare("AMPERSAND") == 0) {
+		else if(currentelementType.compare("AMPERSAND") == 0) {
 			stackElement *firstElement = executionStack.top();
                         if(firstElement == NULL) {
                                 cout << "\nElement cannot be null...exiting";
@@ -1138,7 +1145,7 @@ void Parser::runCSEMachine() {
 				exit(0);
 			}
 		}
-		if(currentelementType.compare("OR") == 0) {
+		else if(currentelementType.compare("OR") == 0) {
                         stackElement *firstElement = executionStack.top();
                         if(firstElement == NULL) {
                                 cout << "\nElement cannot be null...exiting";
@@ -1173,7 +1180,7 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                 }
-		if(currentelementType.compare("NOT") == 0) {
+		else if(currentelementType.compare("NOT") == 0) {
 			stackElement *element = executionStack.top();
                         if(element == NULL) {
                                 cout << "\nElement cannot be null...exiting";
@@ -1193,7 +1200,7 @@ void Parser::runCSEMachine() {
 				exit(0);
 			}
 		}
-		if(currentelementType.compare("NEGATIVE") == 0) {
+		else if(currentelementType.compare("NEGATIVE") == 0) {
                         stackElement *element = executionStack.top();
                         if(element == NULL) {
                                 cout << "\nElement cannot be null...exiting";
@@ -1209,7 +1216,7 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                 }
-		if(currentelementType.compare("GREATER") == 0) {
+		else if(currentelementType.compare("GREATER") == 0) {
                         stackElement *firstElement = executionStack.top();
                         if(firstElement == NULL) {
                                 cout << "\nElement cannot be null...exiting";
@@ -1235,7 +1242,7 @@ void Parser::runCSEMachine() {
 				exit(0);
 			}
 		}
-		if(currentelementType.compare("GREATEREQUAL") == 0) {
+		else if(currentelementType.compare("GREATEREQUAL") == 0) {
                         stackElement *firstElement = executionStack.top();
                         if(firstElement == NULL) {
                                 cout << "\nElement cannot be null...exiting";
@@ -1261,7 +1268,7 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                 }
-		if(currentelementType.compare("LESS") == 0) {
+		else if(currentelementType.compare("LESS") == 0) {
                         stackElement *firstElement = executionStack.top();
                         if(firstElement == NULL) {
                                 cout << "\nElement cannot be null...exiting";
@@ -1287,7 +1294,7 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                 }
-		if(currentelementType.compare("LESSEQUAL") == 0) {
+		else if(currentelementType.compare("LESSEQUAL") == 0) {
                         stackElement *firstElement = executionStack.top();
                         if(firstElement == NULL) {
                                 cout << "\nElement cannot be null...exiting";
@@ -1313,7 +1320,7 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                 }
-		if(currentelementType.compare("ADDITION") == 0) {
+		else if(currentelementType.compare("ADDITION") == 0) {
                         stackElement *firstElement = executionStack.top();
                         if(firstElement == NULL) {
                                 cout << "\nElement cannot be null...exiting";
@@ -1337,7 +1344,7 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                 }
-		if(currentelementType.compare("SUBTRACTION") == 0) {
+		else if(currentelementType.compare("SUBTRACTION") == 0) {
                         stackElement *firstElement = executionStack.top();
                         if(firstElement == NULL) {
                                 cout << "\nElement cannot be null...exiting";
@@ -1361,7 +1368,7 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                 }
-		if(currentelementType.compare("MULTIPLICATION") == 0) {
+		else if(currentelementType.compare("MULTIPLICATION") == 0) {
                         stackElement *firstElement = executionStack.top();
                         if(firstElement == NULL) {
                                 cout << "\nElement cannot be null...exiting";
@@ -1385,7 +1392,7 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                 }
-		if(currentelementType.compare("DIVISION") == 0) {
+		else if(currentelementType.compare("DIVISION") == 0) {
                         stackElement *firstElement = executionStack.top();
                         if(firstElement == NULL) {
                                 cout << "\nElement cannot be null...exiting";
@@ -1409,6 +1416,58 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                 }
+		else if(currentelementType.compare("TAU") == 0) {
+			stackElement *new_se = new stackElement();
+			new_se->elementType = "TUPLE";
+			for(int i=0; i<currentctrlElement->numofelements; i++) {
+				stackElement *temp = executionStack.top();
+				if(temp != NULL) {
+					(new_se->tupleQueue).push(temp);
+					executionStack.pop();
+				}
+				else {
+					cout << "\nNumber of elements in tuple are less than expected";
+					exit(0);
+				}
+			}
+			executionStack.push(new_se);
+		}
+		else if(currentelementType.compare("AUG") == 0) {
+                        stackElement *firstElement = executionStack.top();
+                        if(firstElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *secondElement = executionStack.top();
+                        if(secondElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+			if((firstElement->elementType.compare("TUPLE")  == 0 || firstElement->elementType.compare("NIL") == 0) && (secondElement->elementType.compare("TUPLE") == 0 || secondElement->elementType.compare("NIL") == 0 || secondElement->elementType.compare("INTEGER") == 0 || secondElement->elementType.compare("STRING") == 0 || secondElement->elementType.compare("TRUE") == 0 || secondElement->elementType.compare("FALSE") == 0 || secondElement->elementType.compare("DUMMY") == 0)) {
+				stackElement *new_se = new stackElement();
+				new_se->elementType = "TUPLE";
+				queue<stackElement *> temp;
+				if(firstElement->elementType.compare("TUPLE") == 0) {
+					while(!(firstElement->tupleQueue).empty()) {
+						temp.push((firstElement->tupleQueue).front());
+						(new_se->tupleQueue).push((firstElement->tupleQueue).front());
+						(firstElement->tupleQueue).pop();
+					}
+					while(!temp.empty()) {
+						(firstElement->tupleQueue).push(temp.front());
+						temp.pop();
+					}
+				}
+				(new_se->tupleQueue).push(secondElement);
+				executionStack.push(new_se);
+			}
+			else {
+				cout << "\nError - element type mismatch";
+				exit(0);
+			}
+		}
 	}
 }
 
