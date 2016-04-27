@@ -8,6 +8,10 @@ treeNode::treeNode(string value, string type) {
 	node_type = type;
 }
 
+treeNode::treeNode() {
+
+}
+
 string treeNode::getNodeValue() {
 
 	return node_value;
@@ -82,6 +86,7 @@ void Parser::parse(string exec_mode) {
 		env = new environment();
 		generateControlStack(env, controlstructure);
 		generateExecutionStack(env);
+		runCSEMachine();
 	}
 }
 
@@ -894,16 +899,16 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 void Parser::generateControlStack(environment *new_env, controlStructure *cs) {
 	
 	controlStructure *envctrl = new controlStructure(new_env);
+	envctrl->node = new treeNode();
+	(envctrl->node)->setNodeType("ENVIRONMENT");
 	controlStack.push(envctrl);
 	if(cs->next != NULL) {
 		controlStructure *temp = cs->next;
 		while(temp->next != NULL) {
 			controlStack.push(temp);
-			//cout << (temp->node)->getNodeType() << endl;
 			temp = temp->next;
 		}
 		controlStack.push(temp);
-		//cout << (temp->node)->getNodeType() << endl;
 	}
 	else {
 		cout << "\nError...control structure not found! Exiting...";
@@ -917,9 +922,14 @@ void Parser::generateExecutionStack(environment *new_env) {
 	executionStack.push(se);
 }
 
-void runCSEMachine() {
+void Parser::runCSEMachine() {
 
-	
+	while(!controlStack.empty()) {
+		controlStructure *currentctrlElement = controlStack.top();
+		controlStack.pop();
+		string currentelementType = (currentctrlElement->node)->getNodeType();
+		cout << currentelementType << endl;
+	}
 }
 
 /* Following the grammar rules 
