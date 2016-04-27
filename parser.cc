@@ -1103,7 +1103,76 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                 }
-		
+		if(currentelementType.compare("AMPERSAND") == 0) {
+			stackElement *firstElement = executionStack.top();
+                        if(firstElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *secondElement = executionStack.top();
+                        if(secondElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+			if((firstElement->elementType.compare("TRUE") == 0 || firstElement->elementType.compare("FALSE") == 0) && (secondElement->elementType.compare("FALSE") == 0 || secondElement->elementType.compare("TRUE") == 0)) {
+				bool result;
+				if(firstElement->elementType.compare("TRUE") == 0 && secondElement->elementType.compare("TRUE") == 0)
+					result = true;
+				else
+					result = false;
+				if(result) {
+					stackElement *new_se = new stackElement();
+                                        new_se->elementType = "TRUE";
+                                        executionStack.push(new_se);
+                                }
+                                else {
+                                        stackElement *new_se = new stackElement();
+                                        new_se->elementType = "FALSE";
+                                        executionStack.push(new_se);
+                                }
+			}
+			else {
+				cout << "\nError - element type mismatch!";
+				exit(0);
+			}
+		}
+		if(currentelementType.compare("OR") == 0) {
+                        stackElement *firstElement = executionStack.top();
+                        if(firstElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        stackElement *secondElement = executionStack.top();
+                        if(secondElement == NULL) {
+                                cout << "\nElement cannot be null...exiting";
+                                exit(0);
+                        }
+                        executionStack.pop();
+                        if((firstElement->elementType.compare("TRUE") == 0 || firstElement->elementType.compare("FALSE") == 0) && (secondElement->elementType.compare("FALSE") == 0 || secondElement->elementType.compare("TRUE") == 0)) {
+                                bool result;
+                                if(firstElement->elementType.compare("FALSE") == 0 && secondElement->elementType.compare("FALSE") == 0)
+                                        result = false;
+                                else
+                                        result = true;
+                                if(result) {
+                                        stackElement *new_se = new stackElement();
+                                        new_se->elementType = "TRUE";
+                                        executionStack.push(new_se);
+                                }
+                                else {
+                                        stackElement *new_se = new stackElement();
+                                        new_se->elementType = "FALSE";
+                                        executionStack.push(new_se);
+                                }
+                        }
+                        else {
+                                cout << "\nError - element type mismatch!";
+                                exit(0);
+                        }
+                }
 	}
 }
 
