@@ -1,4 +1,4 @@
 1) Still could not run with difftest.pl so couldn't check all the functions at a go.
 2) Again manually ran against all the functions listed in tests folder, about half of them ran fine and produced exactly same output, and half of them didn't
 3) The ones that didn't run all ran into "Expected dummy but found <something>" error.
-4) Full CSE Machine implemented -- Standardization and Control Structure generation working fine but most of the programs run into "Elements cannot be null!!" error. Need to debug further!
+4) Full CSE Machine implemented -- Standardization working fine ---> BUT programs are running into infinite loop. Need to debug further!

@@ -819,12 +819,12 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 			treeNode *tempnode = (treenode->left)->right;
 			controlStructure *temp = new controlStructure(treenode);
 			if(treenode->left != NULL) {
-				if((treenode->left)->getNodeType().compare("COMMA") == 1) {
+				if((treenode->left)->getNodeType().compare("COMMA") == 0) 
+					temp->leftchild = (treenode->left)->left;
+				else {
 					temp->leftchild = treenode->left;
 					(temp->leftchild)->right = NULL;
 				}
-				else
-					temp->leftchild = treenode->left->left;
 			}
 			else {
 				cout << "\nLeft child cannot be null...exiting";
@@ -893,7 +893,7 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
                         cs->next = temp;
                         cs = cs->next;
                         treetoControlStructure(treenode->left, cs);
-                        treeNode *nodeptr = treenode;
+                        treeNode *nodeptr = treenode->left;
 			int tuple_elements = 0;
 			while(nodeptr != NULL) {
 				nodeptr = nodeptr->right;
@@ -955,7 +955,7 @@ void Parser::runCSEMachine() {
 		controlStack.pop();
 		string currentelementType = (currentctrlElement->node)->getNodeType();
 		string currentelementValue = (currentctrlElement->node)->getNodeValue();
-		cout << "<" << currentelementType << "," << currentelementValue << ">" << endl;
+		//cout << "<" << currentelementType << "," << currentelementValue << ">" << endl;
 		if(currentelementType.compare("INTEGER") == 0) {
 			int value = atoi(currentelementValue.c_str());
 			stackElement *new_se = new stackElement(value);
@@ -966,10 +966,6 @@ void Parser::runCSEMachine() {
 			executionStack.push(new_se);
 		}
 		else if(currentelementType.compare("IDENTIFIER") == 0) {
-			cout << "[";
-			for(auto it = env->declaration_table.cbegin(); it != env->declaration_table.cend(); it++)
-				cout << "(" << it->first << ":" << it->second << ") ";
-			cout << "]" << endl;
 			stackElement *temp_se = env->searchValue(currentelementValue);
 			if(temp_se != NULL) {
 				executionStack.push(temp_se);
