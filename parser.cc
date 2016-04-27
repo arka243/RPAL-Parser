@@ -1762,7 +1762,7 @@ void Parser::runCSEMachine() {
                                                 exit(0);
                                         }
 				}
-				controlStructure *deltaptr = new_cs;
+				controlStructure *deltaptr = new_cs->deltaIndex;
 				while(deltaptr != NULL) {
 					controlStack.push(deltaptr);
 					deltaptr = deltaptr->next;
