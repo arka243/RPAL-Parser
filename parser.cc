@@ -105,7 +105,6 @@ void Parser::parse(string exec_mode) {
 		generateControlStack(env, controlstructure);
 		generateExecutionStack(env);
 		runCSEMachine();
-		cout << endl;
 	}
 }
 
@@ -1804,6 +1803,7 @@ void Parser::runCSEMachine() {
 			exit(0);
 		}
 	}
+	cout << endl;
 }
 
 void Parser::printelement(stackElement *se) {
