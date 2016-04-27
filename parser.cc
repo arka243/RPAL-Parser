@@ -63,6 +63,16 @@ environment::environment() {
 	origin = NULL;
 }
 
+stackElement* environment::searchValue(string value) {
+
+	if(declaration_table[value] != NULL)
+		return declaration_table[value];
+	else if(origin != NULL)
+		return origin->searchValue(value);
+	else
+		return NULL;
+}
+
 Parser::Parser(string filepath) {
 
 	last_scanned_char = ' ';
@@ -809,8 +819,12 @@ void Parser::treetoControlStructure(treeNode *treenode, controlStructure *cs) {
 			treeNode *tempnode = (treenode->left)->right;
 			controlStructure *temp = new controlStructure(treenode);
 			if(treenode->left != NULL) {
-				temp->leftchild = treenode->left;
-				(temp->leftchild)->right = NULL;
+				if((treenode->left)->getNodeType().compare("COMMA") == 1) {
+					temp->leftchild = treenode->left;
+					(temp->leftchild)->right = NULL;
+				}
+				else
+					temp->leftchild = treenode->left->left;
 			}
 			else {
 				cout << "\nLeft child cannot be null...exiting";
@@ -941,6 +955,7 @@ void Parser::runCSEMachine() {
 		controlStack.pop();
 		string currentelementType = (currentctrlElement->node)->getNodeType();
 		string currentelementValue = (currentctrlElement->node)->getNodeValue();
+		cout << "<" << currentelementType << "," << currentelementValue << ">" << endl;
 		if(currentelementType.compare("INTEGER") == 0) {
 			int value = atoi(currentelementValue.c_str());
 			stackElement *new_se = new stackElement(value);
@@ -951,7 +966,11 @@ void Parser::runCSEMachine() {
 			executionStack.push(new_se);
 		}
 		else if(currentelementType.compare("IDENTIFIER") == 0) {
-			stackElement *temp_se = declaration_table[currentelementType];
+			cout << "[";
+			for(auto it = env->declaration_table.cbegin(); it != env->declaration_table.cend(); it++)
+				cout << "(" << it->first << ":" << it->second << ") ";
+			cout << "]" << endl;
+			stackElement *temp_se = env->searchValue(currentelementValue);
 			if(temp_se != NULL) {
 				executionStack.push(temp_se);
 			}
@@ -979,7 +998,7 @@ void Parser::runCSEMachine() {
 				else if(currentelementValue.compare("Conc") == 0)
                                         new_se->primfunc = "CONC";
 				else {
-					cout << "\nUndefined identifier..." << currentelementValue << "exiting";
+					cout << "\nUndefined identifier: " << currentelementValue << " exiting...";
 					exit(0);
 				}
 				executionStack.push(new_se);
@@ -1622,7 +1641,7 @@ void Parser::runCSEMachine() {
 					if(temp->elementType.compare("TUPLE") == 0) {
 						if(((current_se->lambdaRef)->leftchild)->right == NULL) {
 							string key = ((current_se->lambdaRef)->leftchild)->getNodeValue();
-							declaration_table[key] = temp;
+							newEnv->declaration_table[key] = temp;
 						}
 						else {
 							queue<stackElement *> backup;
@@ -1633,7 +1652,7 @@ void Parser::runCSEMachine() {
 									(temp->tupleQueue).pop();
 									backup.push(queueelement);
 									string key = nodeptr->getNodeValue();
-									declaration_table[key] = queueelement;
+									newEnv->declaration_table[key] = queueelement;
 									nodeptr = nodeptr->right;
 								}
 								else {
@@ -1649,7 +1668,7 @@ void Parser::runCSEMachine() {
 					}
 					else {
 						string key = ((current_se->lambdaRef)->leftchild)->getNodeValue();
-						declaration_table[key] = temp;
+						newEnv->declaration_table[key] = temp;
 					}
 					env = newEnv;
 					stackElement *new_se = new stackElement(newEnv);

@@ -27,12 +27,18 @@ class treeNode {
 	void setNodeType(string type);
 };
 
+class environment;
+class controlStructure;
+class stackElement;
+
 class environment {
 
 	public:
 	environment *origin;
+	map<string, stackElement*> declaration_table;
 	
 	environment();
+	stackElement* searchValue(string value);
 };
 
 class controlStructure {
@@ -77,7 +83,6 @@ class Parser {
 	controlStructure *controlstructure;	
 	stack<controlStructure*> controlStack;
 	stack<stackElement*> executionStack;
-	map<string, stackElement*> declaration_table;
 
 	public:
 	
