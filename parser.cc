@@ -958,7 +958,7 @@ void Parser::runCSEMachine() {
 		controlStack.pop();
 		string currentelementType = (currentctrlElement->node)->getNodeType();
 		string currentelementValue = (currentctrlElement->node)->getNodeValue();
-		//cout << "<" << currentelementType << "," << currentelementValue << ">" << endl;
+		cout << "<" << currentelementType << "," << currentelementValue << ">" << endl;
 		if(currentelementType.compare("INTEGER") == 0) {
 			int value = atoi(currentelementValue.c_str());
 			stackElement *new_se = new stackElement(value);
@@ -1352,10 +1352,9 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                         executionStack.pop();
-                        stackElement *new_se = new stackElement();
                         if(firstElement->elementType.compare("INTEGER") == 0 && secondElement->elementType.compare("INTEGER") == 0) {
-                        	new_se->elementType = "INTEGER";
-				new_se->intValue = firstElement->intValue + secondElement->intValue;
+                        	int result = (firstElement->intValue)+(secondElement->intValue);
+				stackElement *new_se = new stackElement(result);
 				executionStack.push(new_se);
                         }
                         else {
@@ -1376,10 +1375,9 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                         executionStack.pop();
-                        stackElement *new_se = new stackElement();
                         if(firstElement->elementType.compare("INTEGER") == 0 && secondElement->elementType.compare("INTEGER") == 0) {
-                                new_se->elementType = "INTEGER";
-                                new_se->intValue = firstElement->intValue - secondElement->intValue;
+                                int result = (firstElement->intValue)-(secondElement->intValue);
+                                stackElement *new_se = new stackElement(result);
                                 executionStack.push(new_se);
                         }
                         else {
@@ -1400,10 +1398,9 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                         executionStack.pop();
-                        stackElement *new_se = new stackElement();
                         if(firstElement->elementType.compare("INTEGER") == 0 && secondElement->elementType.compare("INTEGER") == 0) {
-                                new_se->elementType = "INTEGER";
-                                new_se->intValue = firstElement->intValue * secondElement->intValue;
+                                int result = (firstElement->intValue)*(secondElement->intValue);
+                                stackElement *new_se = new stackElement(result);
                                 executionStack.push(new_se);
                         }
                         else {
@@ -1424,10 +1421,9 @@ void Parser::runCSEMachine() {
                                 exit(0);
                         }
                         executionStack.pop();
-                        stackElement *new_se = new stackElement();
                         if(firstElement->elementType.compare("INTEGER") == 0 && secondElement->elementType.compare("INTEGER") == 0) {
-                                new_se->elementType = "INTEGER";
-                                new_se->intValue = firstElement->intValue / secondElement->intValue;
+                                int result = (firstElement->intValue)/(secondElement->intValue);
+                                stackElement *new_se = new stackElement(result);
                                 executionStack.push(new_se);
                         }
                         else {
