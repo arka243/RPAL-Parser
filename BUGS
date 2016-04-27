@@ -5,8 +5,7 @@ BUGS:
 3) The ones that didn't run ran into "Expected dummy but found <something>" error while producing AST. [Still cannot figure out what is going wrong!]
 4) Standardization of tree implemented -- working fine [use flag -std instead of -ast to check standardizing]
 5) Control Structure generation from Standardized tree implemented. No error encountered.
-6) Full CSE Machine implemented ---> [ERROR: Element mismatch and tuple printing related issues! debugging]
-7) Tuple printing has a problem (runs into infinite loop -> looking into the fix)
+6) Full CSE Machine implemented ---> [ERRORS: Element mismatch, string printing core dump and mismatching final output]
 
 ** UPDATE:
 ========= 
@@ -18,4 +17,6 @@ List of programs running fine as of now are:
 4) envlist
 5) stem1
 6) stem2
-7) add (partially -- gives -15 instead of 15)
+7) test1
+8) add (partially -- gives -15 instead of 15)
+9) vectorsum (again -- wrong output like add)

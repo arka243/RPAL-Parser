@@ -957,7 +957,7 @@ void Parser::runCSEMachine() {
 		controlStack.pop();
 		string currentelementType = (currentctrlElement->node)->getNodeType();
 		string currentelementValue = (currentctrlElement->node)->getNodeValue();
-		cout << "<" << currentelementType << "," << currentelementValue << ">" << endl;
+		//cout << "<" << currentelementType << "," << currentelementValue << ">" << endl;
 		if(currentelementType.compare("INTEGER") == 0) {
 			int value = atoi(currentelementValue.c_str());
 			stackElement *new_se = new stackElement(value);
@@ -1838,12 +1838,12 @@ void Parser::printtuple(stackElement *se) {
                 (se->tupleQueue).pop();
                 if(!(se->tupleQueue).empty())
                 	cout << ", ";
-                cout << ")";
-                while(!backup.empty()) {
-                	(se->tupleQueue).push(backup.front());
-                        backup.pop();
-                }
 	}
+	cout << ")";
+        while(!backup.empty()) {
+        	(se->tupleQueue).push(backup.front());
+        	backup.pop();
+        }
 }
 
 
