@@ -4,6 +4,7 @@
 #include<fstream>
 #include<cstdio>
 #include<stack>
+#include<map>
 
 using namespace std;
 
@@ -49,6 +50,7 @@ class stackElement {
 	public:
 	int intValue;
 	string strValue;
+	string primfunc;
 	environment *stackEnv;
 	string elementType;
 	
@@ -69,6 +71,7 @@ class Parser {
 	controlStructure *controlstructure;	
 	stack<controlStructure*> controlStack;
 	stack<stackElement*> executionStack;
+	map<string, stackElement*> declaration_table;
 
 	public:
 	

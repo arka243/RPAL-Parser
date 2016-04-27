@@ -944,7 +944,38 @@ void Parser::runCSEMachine() {
 		}
 		if(currentelementType.compare("IDENTIFIER") == 0) {
 			stackElement *new_se = new stackElement();
-			
+			map<string, stackElement*>::iterator itr = declaration_table.find(currentelementValue);
+			if(itr != declaration_table.end())
+				executionStack.push(itr->second);
+			else {
+				stackElement *new_se = new stackElement();
+				new_se->elementType = "PRIMITIVE_FUNCTION";
+				if(currentelementValue.compare("Isinteger") == 0) 
+					new_se->primfunc = "ISINTEGER";
+				else if(currentelementValue.compare("Isstring") == 0) 
+                                        new_se->primfunc = "ISSTRING";
+				else if(currentelementValue.compare("Istruthvalue") == 0) 
+                                        new_se->primfunc = "ISTRUTHVALUE";
+				else if(currentelementValue.compare("Istuple") == 0) 
+                                        new_se->primfunc = "ISTUPLE";
+				else if(currentelementValue.compare("Print") == 0) 
+                                        new_se->primfunc = "PRINT";
+				else if(currentelementValue.compare("Order") == 0)
+                                        new_se->primfunc = "ORDER";
+				else if(currentelementValue.compare("ItoS") == 0)
+                                        new_se->primfunc = "ITOS";
+				else if(currentelementValue.compare("Stern") == 0)
+                                        new_se->primfunc = "STERN";
+				else if(currentelementValue.compare("Stem") == 0)
+                                        new_se->primfunc = "STEM";
+				else if(currentelementValue.compare("Conc") == 0)
+                                        new_se->primfunc = "CONC";
+				else {
+					cout << "\nUndefined identifier...exiting";
+					exit(0);
+				}
+				executionStack.push(new_se);
+			}				
 		}
 		if(currentelementType.compare("TRUE") == 0) {
 			stackElement *new_se = new stackElement();
