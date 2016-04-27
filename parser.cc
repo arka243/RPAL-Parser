@@ -97,6 +97,9 @@ void Parser::parse(string exec_mode) {
 			treeTraversal(rootNode, 0);
 		}
 		treeStandardize(rootNode);
+		if(exec_mode.compare("std") == 0) {
+			treeTraversal(rootNode, 0);
+		}
 		treetoControlStructure(rootNode, controlstructure);
 		env = new environment();
 		generateControlStack(env, controlstructure);

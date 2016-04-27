@@ -15,11 +15,13 @@ int main(int argc, char *argv[]) {
 		filepath = (string)argv[2];
 		if(((string)argv[1]).compare("-ast") == 0) 
 			exec_mode = "ast";
+		else if(((string)argv[1]).compare("-std") == 0)
+			exec_mode = "std";
 		else
 			cout << "\nError --- Execution mode " << ((string)argv[1]) << "not supported!";
 	}
 	else {
-		cout << "\nPlease follow the following format: ./p2 [-ast] FILENAME";
+		cout << "\nPlease follow the following format: ./p2 [-ast]|[-std] FILENAME";
 		cout << "\nExiting ...";
 		exit(0);
 	}

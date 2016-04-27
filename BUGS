@@ -1,7 +1,11 @@
+BUGS:
+----
 1) Still could not run with difftest.pl so couldn't check all the functions at a go.
-2) Again manually ran against all the functions listed in tests folder, about half of them ran fine and produced exactly same output, and half of them didn't
-3) The ones that didn't run all ran into "Expected dummy but found <something>" error.
-4) Full CSE Machine implemented -- Standardization working fine ---> BUT most of the programs are running into infinite loop or core-dumped! Need to debug further! 
+2) Mnually ran against all the functions listed in tests folder, about half of them ran fine and produced exactly same output for AST, and half of them didn't
+3) The ones that didn't run ran into "Expected dummy but found <something>" error while producing AST. [Still cannot figure out what is going wrong!]
+4) Standardization of tree implemented -- working fine [use flag -std instead of -ast to check standardizing]
+5) Control Structure generation from Standardized tree implemented. No error encountered.
+4) Full CSE Machine implemented ---> [ERROR: BUT most of the programs are running into infinite loop or core-dumped! Need to debug further!]
 
 ** UPDATE:
 ========= 
