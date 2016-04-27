@@ -30,6 +30,8 @@ class treeNode {
 class environment {
 
 	public:
+	environment *origin;
+	
 	environment();
 };
 
@@ -95,6 +97,8 @@ class Parser {
 	void generateControlStack(environment *env, controlStructure *cs);
 	void generateExecutionStack(environment *env);
 	void runCSEMachine();
+	void printelement(stackElement *se);
+	void printtuple(stackElement *se);
 
 	void E();
 	void Ew();

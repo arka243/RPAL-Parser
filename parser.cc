@@ -59,7 +59,8 @@ stackElement::stackElement() {
 }
 
 environment::environment() {
-
+	
+	origin = NULL;
 }
 
 Parser::Parser(string filepath) {
@@ -91,6 +92,7 @@ void Parser::parse(string exec_mode) {
 		generateControlStack(env, controlstructure);
 		generateExecutionStack(env);
 		runCSEMachine();
+		cout << endl;
 	}
 }
 
@@ -1475,8 +1477,362 @@ void Parser::runCSEMachine() {
 			new_se->lambdaRef = currentctrlElement;
 			executionStack.push(new_se);
 		}
+		else if(currentelementType.compare("GAMMA") == 0) {
+			stackElement *current_se = executionStack.top();
+			if(current_se->elementType.compare("PRIMITIVE_FUNCTION") == 0) {
+				executionStack.pop();
+				if(current_se->primfunc.compare("ISINTEGER") == 0) {
+					stackElement *new_se = executionStack.top();
+					executionStack.pop();
+					stackElement *temp_se = new stackElement();
+					if(new_se->elementType.compare("INTEGER") == 0)
+						temp_se->elementType = "TRUE";
+					else
+						temp_se->elementType = "FALSE";
+					executionStack.push(temp_se);
+				}
+				else if(current_se->primfunc.compare("ISSTRING") == 0) {
+					stackElement *new_se = executionStack.top();
+                                        executionStack.pop();
+                                        stackElement *temp_se = new stackElement();
+                                        if(new_se->elementType.compare("STRING") == 0)
+                                                temp_se->elementType = "TRUE";
+                                        else
+                                                temp_se->elementType = "FALSE";
+                                        executionStack.push(temp_se);
+				}
+				else if(current_se->primfunc.compare("ISTRUTHVALUE") == 0) {
+					stackElement *new_se = executionStack.top();
+                                        executionStack.pop();
+                                        stackElement *temp_se = new stackElement();
+                                        if(new_se->elementType.compare("TRUE") == 0 || new_se->elementType.compare("FALSE") == 0)
+                                                temp_se->elementType = "TRUE";
+                                        else
+                                                temp_se->elementType = "FALSE";
+                                        executionStack.push(temp_se);
+				}
+				else if(current_se->primfunc.compare("ISTUPLE") == 0) {
+					stackElement *new_se = executionStack.top();
+                                        executionStack.pop();
+                                        stackElement *temp_se = new stackElement();
+                                        if(new_se->elementType.compare("TUPLE") == 0 || new_se->elementType.compare("NIL") == 0)
+                                                temp_se->elementType = "TRUE";
+                                        else
+                                                temp_se->elementType = "FALSE";
+                                        executionStack.push(temp_se);
+				}
+				else if(current_se->primfunc.compare("PRINT") == 0) {
+					stackElement *new_se = executionStack.top();
+					if(new_se != NULL) {
+						executionStack.pop();
+						printelement(new_se);
+						stackElement *temp_se = new stackElement();
+						temp_se->elementType = "DUMMY";
+						executionStack.push(temp_se);
+					}
+					else {
+						cout << "\nError - null element occured";
+						exit(0);
+					}
+				}
+				else if(current_se->primfunc.compare("ORDER") == 0) {
+					stackElement *new_se = executionStack.top();
+					executionStack.pop();
+					if(new_se->elementType.compare("NIL") == 0) {
+						stackElement *temp_se = new stackElement(0);
+						executionStack.push(temp_se);
+					}
+					else if(new_se->elementType.compare("TUPLE") == 0) {
+						stackElement *temp_se = new stackElement((new_se->tupleQueue).size());
+						executionStack.push(temp_se);
+					}
+					else {
+						cout << "\nError - mismatch of element type";
+						exit(0);
+					}
+				}
+				else if(current_se->primfunc.compare("ITOS") == 0) {
+					stackElement *new_se = executionStack.top();
+					executionStack.pop();
+					string newstr = std::to_string(new_se->intValue);
+					stackElement *temp_se = new stackElement(newstr);
+					executionStack.push(temp_se);
+				}
+				else if(current_se->primfunc.compare("STERN") == 0) {
+					stackElement *new_se = executionStack.top();
+					executionStack.pop();
+					stackElement *temp_se = new stackElement((new_se->strValue).substr(1, (new_se->strValue).size()));
+					executionStack.push(temp_se);
+				}
+				else if(current_se->primfunc.compare("STEM") == 0) {
+					stackElement *new_se = executionStack.top();
+					executionStack.pop();
+					stackElement *temp_se = new stackElement((new_se->strValue).substr(0,1));
+					executionStack.push(temp_se);
+				}
+				else if(current_se->primfunc.compare("CONC") == 0) {
+					stackElement *first_se = executionStack.top();
+					if(first_se != NULL && first_se->elementType.compare("STRING") == 0) 
+						executionStack.pop();
+					else {
+						cout << "\nError - mismatch or null element";
+						exit(0);
+					}
+					stackElement *second_se = executionStack.top();
+					if(second_se != NULL && second_se->elementType.compare("STRING") == 0)
+                                                executionStack.pop();
+                                        else {
+                                                cout << "\nError - mismatch or null element";
+                                                exit(0);
+                                        }
+					stackElement *temp_se = new stackElement(first_se->strValue + second_se->strValue);
+					executionStack.push(temp_se);
+				}
+				else {
+					cout << "\nUndefined primitive function";
+					exit(0);
+				}
+                        }
+                        else if(current_se->elementType.compare("TUPLE") == 0) {
+				executionStack.pop();
+				stackElement *new_se = executionStack.top();
+				executionStack.pop();
+				queue<stackElement *> backup;
+				for(int i=1; i<(new_se->intValue); i++) {
+					backup.push((current_se->tupleQueue).front());
+					(current_se->tupleQueue).pop();
+				}
+				stackElement *temp_se = (current_se->tupleQueue).front();
+				while(!(current_se->tupleQueue).empty()) {
+					backup.push((current_se->tupleQueue).front());
+					(current_se->tupleQueue).pop();
+				}
+				executionStack.push(temp_se);
+				while(!backup.empty()) {
+					(current_se->tupleQueue).push(backup.top());
+					backup.pop();
+				}
+                        }
+			else if(current_se->elementType.compare("LAMBDA") == 0) {
+				executionStack.pop();
+				environment *newEnv = new environment();
+				newEnv->origin = (current_se->lambdaRef)->currentEnv;
+				if((current_se->lambdaRef)->leftchild != NULL) {
+					stackElement *temp = executionStack.top();
+					executionStack.pop();
+					if(temp->elementType.compare("TUPLE") == 0) {
+						if(((current_se->lambdaRef)->leftchild)->right == NULL) {
+							string key = ((current_se->lambdaRef)->leftchild)->getNodeValue();
+							declaration_table.insert(key, temp);
+						}
+						else {
+							queue<stackElement *> backup;
+							treeNode *nodeptr = (current_se->lambdaRef)->leftchild;
+							while(nodeptr != NULL) {
+								stackElement *queueelement = (temp->tupleQueue).front();
+								if(queueelement != NULL) {
+									(temp->tupleQueue).pop();
+									backup.push(queueelement);
+									string key = nodeptr->getNodeValue();
+									declaration_table.insert(key, queueelement);
+									nodeptr = nodeptr->right;
+								}
+								else {
+									cout << "\nError - queue element cannot be null";
+									exit(0);
+								}
+							}
+							while(!backup.empty()) {
+								(temp->tupleQueue).push(backup.front());
+								backup.pop();
+							}
+						}
+					}
+					else {
+						string key = ((current_se->lambdaRef)->leftchild)->getNodeValue();
+						declaration_table.insert(key, temp);
+					}
+					env = newEnv;
+					stackElement new_se = new stackElement(newEnv);
+					new_se->elementType = "ENVIRONMENT";
+					executionStack.push(new_se);
+					controlStructure *new_cs = new controlStructure(new treeNode("environment", "ENVIRONMENT"));
+					new_cs->currentEnv = env;
+					controlStack.push(new_cs);
+					if((current_se->lambdaRef)->deltaIndex != NULL) {
+						controlStructure *deltaptr = (current_se->lambdaRef)->deltaIndex;
+						while(deltaptr != NULL) {
+							controlStack.push(deltaptr);
+							deltaptr = deltaptr->next;
+						}
+					}
+					else {
+						cout << "\nError -- delta instance not found";
+						exit(0);
+					}
+				}
+				else {
+					cout << "\nElement cannot be null!";
+					exti(0);
+				}
+			}
+			else if(current_se->elementType.compare("YSTAR") == 0) {
+				executionStack.pop();
+				stackElement *temp = executionStack.top();
+				if(temp->elementType.compare("LAMBDA") == 0) 
+					temp->elementType = "LAMBDA_CLOSURE";
+				else {
+					cout << "\nError - element type mismatch";
+					exit(0);
+				}	
+                        }
+			else if(current_se->elementType.compare("LAMBDA_CLOSURE") == 0) {
+				stackElement *new_se = new stackElement();
+				new_se->lambdaRef = current_se->lambdaRef;
+				new_se->elementType = "LAMBDA";
+				executionStack.push(new_se);
+				controlStructure *gammanode1 = new controlStructure(new treeNode("gamma", "GAMMA"));
+				controlStructure *gammanode2 = new controlStructure(new treeNode("gamma", "GAMMA"));
+				controlStack.push(gammanode1);
+				controlStack.push(gammanode2);
+                        }
+			else {
+				cout << "\nError -- Element type mismatch";
+				exit(0);
+			}
+		}
+		else if(currentelementType.compare("YSTAR") == 0) {
+			stackElement *new_se = new stackElement();
+			new_se->elementType = "YSTAR";
+			executionStack.push(new_se);
+		}
+		else if(currentelementType.compare("BETA") == 0) {
+			stackElement *temp_se = executionStack.top();
+			executionStack.pop();
+			controlStructure *new_cs = new controlStructure();
+			if(temp_se != NULL && (temp_se->elementType.compare("TRUE") == 0 || temp_se->elementType.compare("FALSE") == 0)) {
+				if(temp_se->elementType.compare("TRUE") == 0) {
+					controlStructure *temp_cs = controlStack.top();
+					if(temp_cs != NULL && (temp_cs->node)->getNodeType().compare("DELTAELSE") == 0)
+						controlStack.pop();
+					else {
+						cout << "\nError - mismatching element";
+						exit(0);
+					}
+					temp_cs = controlStack.top()
+					if(temp_cs != NULL && (temp_cs->node)->getNodeType().compare("DELTATHEN") == 0)
+                                                controlStack.pop();
+                                        else {
+                                                cout << "\nError - mismatching element";
+                                                exit(0);
+                                        }
+					new_cs = temp_cs;
+				}
+				else {
+					controlStructure *temp_cs = controlStack.top();
+                                        if(temp_cs != NULL && (temp_cs->node)->getNodeType().compare("DELTAELSE") == 0)
+                                                controlStack.pop();
+                                        else {
+                                                cout << "\nError - mismatching element";
+                                                exit(0);
+                                        }
+					new_cs = temp_cs;
+                                        temp_cs = controlStack.top();
+                                        if(temp_cs != NULL && (temp_cs->node)->getNodeType().compare("DELTATHEN") == 0)
+                                                controlStack.pop();
+                                        else {
+                                                cout << "\nError - mismatching element";
+                                                exit(0);
+                                        }
+				}
+				controlStructure *deltaptr = new_cs;
+				while(deltaptr != NULL) {
+					controlStack.push(deltaptr);
+					deltaptr = deltaptr->next;
+				}
+			}
+			else {
+				cout << "\nError - null or mismatching elements";
+				exit(0);
+			}		
+		}
+		else if(currentelementType.compare("ENVIRONMENT") == 0) {
+			stackElement *temp_se1 = executionStack.top();
+			if(temp_se1 != NULL) {
+				executionStack.pop();
+				stackElement *temp_se2 = executionStack.top();
+				if(temp_se2->elementType.compare("ENVIRONMENT") == 0 && temp_se2->stackEnv == currentctrlElement->currentEnv) {
+					executionStack.pop();
+					executionStack.push(temp_se1);
+				}
+				else {
+					cout << "\nError - element type mismatch";
+					exit(0);
+				}
+				stack<stackElement *> backup;
+				while(!executionStack.empty() && (executionStack.top())->elementType.compare("ENVIRONMENT")) {
+					backup.push(executionStack.top());
+					executionStack.pop();
+				}
+				if(!executionStack.empty())
+					env = (executionStack.top())->stackEnv;
+				while(!backup.empty()) {
+					executionStack.push(backup.top());
+					backup.pop();
+				}
+			}
+			else {
+				cout << "\nError - Environment cannot be null";
+				exit(0);
+			}
+		}
+		else {
+			cout << "\nError -- Undefined Control Element!";
+			exit(0);
+		}
 	}
 }
+
+void Parser::printelement(stackElement *se) {
+
+	if(new_se->elementType.compare("INTEGER") == 0)
+		cout << new_se->intValue;
+        else if(new_se->elementType.compare("STRING") == 0)
+        	cout << new_se->strValue;
+        else if(new_se->elementType.compare("TUPLE") == 0)
+                printtuple(new_se);
+        else if(new_se->elementType.compare("TRUE") == 0)
+                cout << "true";
+        else if(new_se->elementType.compare("FALSE") == 0)
+                cout << "false";
+        else
+        	cout << "";
+}
+
+void Parser::printtuple(stackElement *se) {
+
+	queue<stackElement *> backup;
+        cout << "(";
+        while(!(se->tupleQueue).empty()) {
+        	stackElement *temp = (se->tupleQueue).front();
+                backup.push(temp);
+                if(temp != NULL) 
+                	printelement(temp);
+		else {
+			cout << "\nError - element cannot be null";
+			exit(0);
+		}
+                (se->tupleQueue).pop();
+                if(!(se->tupleQueue).empty())
+                	cout << ", ";
+                cout << ")";
+                while(!backup.empty()) {
+                	(se->tupleQueue).push(backup.top());
+                        backup.pop();
+                }
+	}
+}
+
 
 /* Following the grammar rules 
 mentioned in lexer.pdf */
