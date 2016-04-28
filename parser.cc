@@ -217,32 +217,38 @@ void Parser::Bp() {
 
 	A();
         if((token->getTokenValue().compare("gr") == 0 && token->getTokenType().compare("RESERVED") == 0) || (token->getTokenValue().compare(">") == 0 && token->getTokenType().compare("OPERATOR") == 0)) {
-                tokenValueReader(token->getTokenValue());
+                string tokenvalue = token->getTokenValue();
+		tokenValueReader(tokenvalue);
                 A();
                 treeBuilder("GREATER", "gr", 2);
         }
         else if((token->getTokenValue().compare("ge") == 0 && token->getTokenType().compare("RESERVED") == 0) || (token->getTokenValue().compare(">=") == 0 && token->getTokenType().compare("OPERATOR") == 0)) {
-                tokenValueReader(token->getTokenValue());
+                string tokenvalue = token->getTokenValue();
+                tokenValueReader(tokenvalue);
                 A();
                 treeBuilder("GREATEREQUAL", "ge", 2);
         }
         else if((token->getTokenValue().compare("ls") == 0 && token->getTokenType().compare("RESERVED") == 0 ) || (token->getTokenValue().compare("<") == 0 && token->getTokenType().compare("OPERATOR") == 0)) {
-                tokenValueReader(token->getTokenValue());
+                string tokenvalue = token->getTokenValue();
+                tokenValueReader(tokenvalue);
                 A();
                 treeBuilder("LESS", "ls", 2);
         }
         else if((token->getTokenValue().compare("le") == 0 && token->getTokenType().compare("RESERVED") == 0) || (token->getTokenValue().compare("<=") == 0 && token->getTokenType().compare("OPERATOR") == 0)) {
-                tokenValueReader(token->getTokenValue());
+                string tokenvalue = token->getTokenValue();
+                tokenValueReader(tokenvalue);
                 A();
                 treeBuilder("LESSEQUAL", "le", 2);
         }
         else if(token->getTokenValue().compare("eq") == 0 && token->getTokenType().compare("RESERVED") == 0) {
-                tokenValueReader("eq");
+                string tokenvalue = token->getTokenValue();
+                tokenValueReader(tokenvalue);
                 A();
                 treeBuilder("EQUAL", "eq", 2);
         }
         else if(token->getTokenValue().compare("ne") == 0 && token->getTokenType().compare("RESERVED") == 0) {
-                tokenValueReader("ne");
+                string tokenvalue = token->getTokenValue();
+                tokenValueReader(tokenvalue);
                 A();
                 treeBuilder("NOTEQUAL", "ne", 2);
         }
@@ -263,13 +269,14 @@ void Parser::A() {
                 At();
 	}
         while((token->getTokenValue().compare("+") == 0 && token->getTokenType().compare("OPERATOR") == 0) || (token->getTokenValue().compare("-") == 0 && token->getTokenType().compare("OPERATOR") == 0)) {
-                tokenValueReader(token->getTokenValue());
-                At();
+                string tokenvalue = token->getTokenValue();
+                tokenValueReader(tokenvalue);
+		At();
                 if(token->getTokenValue().compare("+") == 0 ) {
-                        treeBuilder("ADDITION", token->getTokenValue(), 2);
+                        treeBuilder("ADDITION", tokenvalue, 2);
 		}
                 else {
-                        treeBuilder("SUBTRACTION", token->getTokenValue(), 2);
+                        treeBuilder("SUBTRACTION", tokenvalue, 2);
 		}
         }
 }
@@ -278,13 +285,14 @@ void Parser::At() {
 
         Af();
         while((token->getTokenValue().compare("*") == 0 && token->getTokenType().compare("OPERATOR") == 0) || (token->getTokenValue().compare("/") == 0 && token->getTokenType().compare("OPERATOR") == 0)) {
-		tokenValueReader(token->getTokenValue());
-                Af();
+                string tokenvalue = token->getTokenValue();
+                tokenValueReader(tokenvalue);
+		Af();
                 if(token->getTokenValue().compare("*") == 0) {
-                	treeBuilder("MULTIPLICATION", token->getTokenValue(), 2);
+                	treeBuilder("MULTIPLICATION", tokenvalue, 2);
 		}
                 else {
-                	treeBuilder("DIVISION", token->getTokenValue(), 2);
+                	treeBuilder("DIVISION", tokenvalue, 2);
 		}
         }
 }
