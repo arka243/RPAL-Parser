@@ -3,8 +3,8 @@ BUGS:
 1) Still could not run with difftest.pl so couldn't check all the functions at a go. Listed down programs in details below.
 2) Manually ran against all the functions listed in tests folder, about half of them ran fine and produced exactly same output for AST, and half of them didn't.
 3) The ones that didn't run ran into "Expected dummy but found <something>" error while producing AST. [Still cannot figure out what is going wrong!]
-4) Standardization of tree implemented -- working fine [use flag -std instead of -ast to check standardizing]
-5) Control Structure generation from Standardized tree implemented. No error encountered.
+4) Standardization of tree implemented ---> working fine [use flag -std instead of -ast to check standardizing]
+5) Control Structure generation from Standardized tree implemented ---> No error encountered.
 6) Full CSE Machine implemented ---> [ERRORS: Element mismatch, string printing core dump and mismatching final output]
 
 ** UPDATE:
@@ -13,17 +13,24 @@ List of programs running fine as of now are:
 
 1) defns.1
 2) t1
-3) pf
-4) envlist
-5) stem1
-6) stem2
-7) test1
-8) ftst
-9) tuples
+3) envlist
+4) stem1
+5) stem2
+6) test1
+7) ftst
+8) tuples
+9) simple.div
+10) t3
+11) t3.1
 
-List of programs running partially fine (tree matches but output doesn't):
+List of programs running partially fine (tree matches but output doesn't, although no Error message is thrown):
 
 1) add (sooo close!! gives -15 instead of 15)
 2) vectorsum
 3) infix
 4) infix2
+5) Innerprod
+6) pf
+7) prog
+
+For the rest of the programs either tree is generated and error message is thrown, or tree is not generated at all.
